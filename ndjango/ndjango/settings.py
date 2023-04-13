@@ -107,9 +107,9 @@ DATABASES = {
          'OPTIONS': {
              'sql_mode': 'traditional',
          },
-         'NAME': 'temp',
-         'USER': 'root',
-         'PASSWORD': '123123',
+         'NAME': 'contents',
+         'USER': 'ndjango',
+         'PASSWORD': '1234',
          'HOST': 'localhost',
          'PORT': '3306',
      }
@@ -174,3 +174,41 @@ else:
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "users.CustomUser"
+
+CSRF_COOKIE_NAME = 'XSRF-TOKEN'
+CSRF_HEADER_NAME = 'X-XSRF-TOKEN'
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = (
+    'localhost:8000',
+    '127.0.0.1:8000',
+)
+
+CORS_ORIGIN_WHITELIST = (
+    'localhost:8000',
+      '127.0.0.1:8000',
+)
+
+CORS_ALLOW_HEADERS = (
+    'access-control-allow-credentials',
+    'access-control-allow-origin',
+    'access-control-request-method',
+    'access-control-request-headers',
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'connection',
+    'content-type',
+    'dnt',
+    'credentials',
+    'host',
+    'origin',
+    'user-agent',
+    'X-CSRFToken',
+    'csrftoken',
+    'x-requested-with',
+)

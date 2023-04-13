@@ -1,13 +1,11 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+import json
 
 '''
 냉장고 식재료 위치 제어 모듈
 '''
 
-'''
-test 수정
-'''
 
 def view_d(request):
     return HttpResponse('homepage')
@@ -29,3 +27,19 @@ def ref_view(request):
     }
 
     return render(request, 'refrigerators/two_doors.html', context)
+
+
+def fridge(request):
+    payment_data={}
+    if request.method == 'POST':
+        var = request.POST['body']
+        payment_data = json.loads(request.body)
+        here = 0
+
+
+    # a = request.data.get('fridge')
+    # print(a)
+
+    return JsonResponse({'ok': payment_data})
+
+

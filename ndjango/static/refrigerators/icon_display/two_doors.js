@@ -100,53 +100,101 @@ else if (window.attachEvent) {
 
 
 // axios
-let form = document.getElementById('form'); // selecting the form
+// let form = document.getElementById('form'); // selecting the form
+//
+// form.addEventListener('submit', function(event) { // 1
+//     event.preventDefault()
+//
+//     let data = new FormData(); // 2
+//
+//     data.append("title", document.getElementById('title').value)
+//     data.append("note", document.getElementById('note').value)
+//     data.append("csrfmiddlewaretoken", '{{csrf_token}}') // 3
+//
+//     axios.post('create_note/', data) // 4
+//      .then(res => alert("Form Submitted")) // 5
+//      .catch(errors => console.log(errors)) // 6
+//
+// })
 
-form.addEventListener('submit', function(event) { // 1
-    event.preventDefault()
 
-    let data = new FormData(); // 2
 
-    data.append("title", document.getElementById('title').value)
-    data.append("note", document.getElementById('note').value)
-    data.append("csrfmiddlewaretoken", '{{csrf_token}}') // 3
+axios.defaults.xsrfCookieName = 'csrftoken'
+axios.defaults.xsrfHeaderName = "X-CSRFToken"
+axios.defaults.headers.common['X-CSRFToken'] = getCookie("csrftoken");
+axios.defaults.withCredentials = true
 
-    axios.post('create_note/', data) // 4
-     .then(res => alert("Form Submitted")) // 5
-     .catch(errors => console.log(errors)) // 6
 
-})
-
-// convert table to JSON
-function converToJson() {
-	console.log("버튼2을 누르셨습니다.");
-	// first row needs to be headers
-    var headers = [];
-
-    // for (var i=0; i< table.rows[0].cells.length; i++) {
-
-		// headers[i] = table.rows[0].cells[i].innerHTML.
-    // }
+// axios Post
+function axiosPost(url, param) {
+    axios.post(url, {"body": param}, {
+		headers: {
+			'Content-Type': 'application/json'
 		}
+	})
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
 
 
+// convert input table to dict
+function tableToDict(table) {
+    var header = [];
+    var rows = [];
 
-function Convert() {
-        var table = document.getElementById("tblCustomers");
-        var header = [];
-        var rows = [];
-
-        for (var i = 0; i < table.rows[0].cells.length; i++) {
-            header.push(table.rows[0].cells[i].innerHTML);
-        }
-
-        for (var i = 1; i < table.rows.length; i++) {
-            var row = {};
-            for (var j = 0; j < table.rows[i].cells.length; j++) {
-                row[header[j]] = table.rows[i].cells[j].innerHTML;
-            }
-            rows.push(row);
-        }
-
-        alert(JSON.stringify(rows));
+    // header
+    for (let i = 0; i < table.rows[0].cells.length; i++) {
+        header.push(table.rows[0].cells[i].innerHTML);
     }
+    // console.log(header)
+
+    for (let i = 1; i < table.rows.length -1; i++) {
+        var row = {};
+        // console.log(i+"째 줄")
+        for (let j = 1; j < table.rows[i].cells.length; j++) {
+            // console.log(j+"째 칸")
+            // console.log(table.rows[i].cells[j].innerText)
+            try {
+                const td = table.rows[i].cells[j]
+                const input = td.querySelector('span').innerText
+                row[j] = input
+                // console.log('row[j]: '+ j +" "+ row[j])
+            } catch {
+                // 빈 cell
+                row[j] = null
+                // console.log('row[j]: '+ row[j])
+            }
+
+        }
+        rows.push(row);
+        // console.log(row)
+
+        // console.log(table.rows[i].cells[1].innerText)
+        // const td = table.rows[i].cells[1]
+        // const input = td.querySelector('span').innerText
+    }
+    // console.log(JSON.stringify(rows))
+
+    const final = {}
+    final[header[0]] = rows
+
+    return final
+}
+
+// convert fridge(ice+fresh) tables into json
+function tableToJson(table, table2) {
+    const ice = tableToDict(table)
+    // console.log(JSON.stringify(rows))
+    const fresh = tableToDict(table2)
+    // console.log(JSON.stringify(rows2))
+    const fridge = { ...ice, ...fresh };
+    console.log(JSON.stringify(fridge))
+
+    axiosPost('/refrigerators/two-doors/fridge', fridge)
+
+
+}

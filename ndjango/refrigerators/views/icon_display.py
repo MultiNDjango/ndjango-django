@@ -1,5 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from rest_framework import status
+from rest_framework.decorators import api_view
+# from django.views.decorators.csrf import csrf_exempt
+# from django.views.decorators.csrf import csrf_protect
 import json
 
 '''
@@ -29,17 +33,13 @@ def ref_view(request):
     return render(request, 'refrigerators/two_doors.html', context)
 
 
+# @csrf_exempt
+@api_view(['POST'])
 def fridge(request):
-    payment_data={}
+
     if request.method == 'POST':
-        var = request.POST['body']
-        payment_data = json.loads(request.body)
-        here = 0
+        var = request.data
 
-
-    # a = request.data.get('fridge')
-    # print(a)
-
-    return JsonResponse({'ok': payment_data})
+    return JsonResponse({'ok': var})
 
 

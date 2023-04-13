@@ -99,6 +99,9 @@ else if (window.attachEvent) {
 }
 
 
+/*
+* */
+
 // axios
 // let form = document.getElementById('form'); // selecting the form
 //
@@ -118,27 +121,50 @@ else if (window.attachEvent) {
 // })
 
 
-
-axios.defaults.xsrfCookieName = 'csrftoken'
-axios.defaults.xsrfHeaderName = "X-CSRFToken"
-axios.defaults.headers.common['X-CSRFToken'] = getCookie("csrftoken");
-axios.defaults.withCredentials = true
-
-
-// axios Post
-function axiosPost(url, param) {
-    axios.post(url, {"body": param}, {
-		headers: {
-			'Content-Type': 'application/json'
+function getCookie(name) {
+	let cookieValue = null;
+	if (document.cookie && document.cookie !== "") {
+		const cookies = document.cookie.split(";");
+		for (let i = 0; i < cookies.length; i++) {
+			const cookie = cookies[i].trim();
+			// Does this cookie string begin with the name we want?
+			if (cookie.substring(0, name.length + 1) === (name + "=")) {
+				cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+				break;
+			}
 		}
-	})
-        .then(function (response) {
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+	}
+	return cookieValue;
 }
+
+
+// axios.defaults.xsrfCookieName = 'csrftoken'
+// axios.defaults.xsrfHeaderName = "X-CSRFToken"
+// axios.defaults.headers.common['X-CSRFToken'] = getCookie("csrftoken");
+// axios.defaults.withCredentials = true
+
+
+// axios call
+function sendAxios(url, method, data) {
+	try {
+		const response = axios({
+			method: method,
+			url: url,
+			xsrfCookieName: 'csrftoken',
+			xsrfHeaderName: 'X-CSRFToken',
+			headers: {
+				"X-Requested-With": "XMLHttpRequest",
+				"X-CSRFToken": getCookie("csrftoken"),
+			},
+			data: data
+		})
+			.then(data => console.log(data))
+
+	} catch (error) {
+		console.error(error);
+	}
+}
+
 
 
 // convert input table to dict
@@ -186,7 +212,7 @@ function tableToDict(table) {
 }
 
 // convert fridge(ice+fresh) tables into json
-function tableToJson(table, table2) {
+async function tableToJson(table, table2) {
     const ice = tableToDict(table)
     // console.log(JSON.stringify(rows))
     const fresh = tableToDict(table2)
@@ -194,7 +220,9 @@ function tableToJson(table, table2) {
     const fridge = { ...ice, ...fresh };
     console.log(JSON.stringify(fridge))
 
-    axiosPost('/refrigerators/two-doors/fridge', fridge)
+    // axiosPost('/refrigerators/two-doors/fridge', fridge)
+	// editMsg(fridge)
+	let response = await sendAxios('/refrigerators/two-doors/fridge', 'post', fridge)
 
 
 }

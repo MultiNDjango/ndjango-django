@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 from refrigerators.views import base_crud
 
 '''
@@ -6,5 +6,10 @@ from refrigerators.views import base_crud
 '''
 
 urlpatterns = [
-    path('b', base_crud.view_b, name="view_b"),
+    path('', base_crud.index, name="index"),
+    path('register/', base_crud.register, name='register'),
+    path('edit/<int:pk>/', base_crud.edit, name='edit'),
+    path('view/<int:pk>/', base_crud.view, name='view'),
+    path('delete/<int:pk>/', base_crud.delete, name='delete'),
+    path('media/<int:pk>/<str:filename>/', base_crud.serve_grocery_image, name='image'),
 ]

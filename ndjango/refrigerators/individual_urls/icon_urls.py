@@ -7,7 +7,6 @@ from refrigerators.views import icon_display
 
 urlpatterns = [
     path('d', icon_display.view_d, name="view_d"),
-    path('icons', icon_display.icon_view, name="icon_view"),
-    path('two-doors', icon_display.ref_view, name="two_doors"),
-    path('two-doors/fridge', icon_display.fridge, name="fridge"),
+    path('', icon_display.two_doors, name="two_doors"),
+    path('<int:user>', icon_display.loc_patch, name="loc_patch"),
 ]

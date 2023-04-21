@@ -40,7 +40,7 @@ SECRET_KEY = get_secret("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'ndjango',
     'recsys',
     'refrigerators',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -101,6 +102,8 @@ WSGI_APPLICATION = 'ndjango.wsgi.application'
 #     }
 # }
 
+
+
 DATABASES = {
     'default': {
          'ENGINE': 'django.db.backends.mysql',
@@ -114,6 +117,11 @@ DATABASES = {
          'PORT': '3306',
      }
 }
+
+SEYEON = False
+
+if SEYEON:
+    DATABASES['default']['PORT'] = '3307'
 
 
 # Password validation
@@ -192,23 +200,23 @@ AUTH_USER_MODEL = "users.CustomUser"
 #       '127.0.0.1:8000',
 # )
 #
-CORS_ALLOW_HEADERS = (
-    'access-control-allow-credentials',
-    'access-control-allow-origin',
-    'access-control-request-method',
-    'access-control-request-headers',
-    'accept',
-    'accept-encoding',
-    'accept-language',
-    'authorization',
-    'connection',
-    'content-type',
-    'dnt',
-    'credentials',
-    'host',
-    'origin',
-    'user-agent',
-    'X-CSRFToken',
-    'csrftoken',
-    'x-requested-with',
-)
+# CORS_ALLOW_HEADERS = (
+#     'access-control-allow-credentials',
+#     'access-control-allow-origin',
+#     'access-control-request-method',
+#     'access-control-request-headers',
+#     'accept',
+#     'accept-encoding',
+#     'accept-language',
+#     'authorization',
+#     'connection',
+#     'content-type',
+#     'dnt',
+#     'credentials',
+#     'host',
+#     'origin',
+#     'user-agent',
+#     'X-CSRFToken',
+#     'csrftoken',
+#     'x-requested-with',
+# )

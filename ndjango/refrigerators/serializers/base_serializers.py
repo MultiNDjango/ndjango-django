@@ -1,6 +1,11 @@
 from rest_framework import serializers
+from refrigerators.models.base_models import Grocery
 
 
-# class ArticleSerializer(serializers.Serializer):
-#     title = serializers.CharField()
-#     content = serializers.TextField()
+class GrocerySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Grocery
+        fields = '__all__'
+
+
+

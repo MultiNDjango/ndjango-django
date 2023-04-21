@@ -87,6 +87,9 @@ redips.init = function () {
 		// display current table and current row
 		msg.innerHTML = 'Changed: ' + pos[0] + ' ' + pos[1];
 	};
+
+	// Disable dropping to already taken table cells
+	REDIPS.drag.dropMode = "single"
 };
 
 
@@ -158,7 +161,10 @@ function sendAxios(url, method, data) {
 			},
 			data: data
 		})
-			.then(data => console.log(data))
+			.then(data => {
+				console.log(data)
+				location.reload();
+			})
 
 	} catch (error) {
 		console.error(error);
@@ -186,7 +192,8 @@ function tableToDict(table) {
             // console.log(table.rows[i].cells[j].innerText)
             try {
                 const td = table.rows[i].cells[j]
-                const input = td.querySelector('span').innerText
+				// const input = td.getElementsByTagName('uid').innerText
+                const input = td.querySelector('small').innerText
                 row[j] = input
                 // console.log('row[j]: '+ j +" "+ row[j])
             } catch {
@@ -212,17 +219,32 @@ function tableToDict(table) {
 }
 
 // convert fridge(ice+fresh) tables into json
-async function tableToJson(table, table2) {
+async function tableToJson(user, table, table2) {
     const ice = tableToDict(table)
     // console.log(JSON.stringify(rows))
     const fresh = tableToDict(table2)
     // console.log(JSON.stringify(rows2))
     const fridge = { ...ice, ...fresh };
-    console.log(JSON.stringify(fridge))
+	// const data = {[user]:fridge}
+	// const data = { userIds : fridge}
+	let data = {}
+	if (user == "None") {
+		// data['user'] = null
+		console.log("user is not authenticated")
+		return
+	}
+	// } else {
+	// 	data['user'] = user
+	// }
+	data['location'] = fridge
+
+    console.log(JSON.stringify(data))
 
     // axiosPost('/refrigerators/two-doors/fridge', fridge)
 	// editMsg(fridge)
-	let response = await sendAxios('/refrigerators/two-doors/fridge', 'post', fridge)
+	const url = `/refrigerators/two-doors/${user}`
+	console.log(url)
+	let response = await sendAxios(url, 'patch', data)
 
 
 }

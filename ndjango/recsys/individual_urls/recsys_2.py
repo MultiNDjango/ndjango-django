@@ -6,6 +6,6 @@ from recsys.views import recsys_2
 '''
 
 urlpatterns = [
-    path('recipes/diet', recsys_2.recipes_diet, name="rec-diet"),
+    path('', recsys_2.get_recipes, name="rec-diet"),
 
 ]

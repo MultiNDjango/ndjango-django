@@ -1,0 +1,118 @@
+{% load static %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.4/tiny-slider.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.4/min/tiny-slider.js" integrity="sha512-j+F4W//4Pu39at5I8HC8q2l1BNz4OF3ju39HyWeqKQagW6ww3ZF9gFcu8rzUbyTDY7gEo/vqqzGte0UPpo65QQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="{% static 'recsys/recsys_2/tiny_slider.css' %}" type="text/css" media="screen" />
+
+
+<article>
+    <div class="bg-light pt-3 pb-2">
+
+        <div class="text-left pt-4 ms-3">
+            <h2>{{ title }}</h2>
+            <p class="lead text-muted">{{ subtitle }}</p>
+        </div>
+
+        <div class="tiny-container">
+
+<!--            <ul class="control{{num}}" id={{ control }}>-->
+            <ul class="control" id="custom-control">
+                <li class="prev">
+                    <b class="fas fa-angle-left fa-2x">◀</b>
+                </li>
+                <li class="next">
+                    <b class="fas fa-angle-right fa-2x">▶</b>
+                </li>
+            </ul>
+
+            <div class="my-slider" style="display: flex;">
+
+                {% for row in total %}
+                <div style="flex:1; width: 300px;">
+                    <a href="/recsys/kor-recs/{{row.id}}">
+                        <img src={{row.att_file_no_main}} alt="" style="width:300px; height:250px; background-position: center; object-fit: cover; padding: 5px;">
+                    </a>
+
+                    <h6 class="fw-bold" style="flex:1">
+                        {% if forloop.counter == 1 %}
+                        <span class="rank-span gold">{{ forloop.counter }}</span>
+                        <span class="text-under-gold">{{ row.rcp_nm }}</span>
+                        {% elif forloop.counter == 2 %}
+                        <span class="rank-span silver">{{ forloop.counter }}</span>
+                        <span class="text-under-silver">{{ row.rcp_nm }}</span>
+                        {% elif forloop.counter == 3 %}
+                        <span class="rank-span bronze">{{ forloop.counter }}</span>
+                        <span class="text-under-bronze">{{ row.rcp_nm }}</span>
+                        {% else %}
+                        <span class="rank-span">{{ forloop.counter }}</span>
+                        {{ row.rcp_nm }}
+                        {% endif %}
+                    </h6>
+
+                    <span class="text-primary fw-bold">#{{row.rcp_pat2}} #{{row.rcp_way2}}</span>
+
+                </div>
+                {% endfor %}
+
+            </div>
+        </div> <!--tiny-container-->
+
+    </div>
+</article>
+
+<article>
+    <div class="bg-light pt-3 pb-2">
+
+        <div class="text-left pt-4 ms-3">
+            <h2>애호박 숙주</h2>
+            <p class="lead text-muted">애호박 숙주에요</p>
+        </div>
+
+        <div class="tiny-container">
+
+            <!--            <ul class="control{{num}}" id={{ control }}>-->
+            <ul class="control" id="custom-control2">
+                <li class="prev">
+                    <b class="fas fa-angle-left fa-2x">◀</b>
+                </li>
+                <li class="next">
+                    <b class="fas fa-angle-right fa-2x">▶</b>
+                </li>
+            </ul>
+
+            <div class="my-slider" style="display: flex;">
+
+                {% for row in veges %}
+                <div style="flex:1; width: 300px;">
+                    <a href="/recsys/kor-recs/{{row.id}}">
+                        <img src={{row.att_file_no_main}} alt="" style="width:300px; height:250px; background-position: center; object-fit: cover; padding: 5px;">
+                    </a>
+
+                    <h6 class="fw-bold" style="flex:1">
+                        {% if forloop.counter == 1 %}
+                        <span class="rank-span gold">{{ forloop.counter }}</span>
+                        <span class="text-under-gold">{{ row.rcp_nm }}</span>
+                        {% elif forloop.counter == 2 %}
+                        <span class="rank-span silver">{{ forloop.counter }}</span>
+                        <span class="text-under-silver">{{ row.rcp_nm }}</span>
+                        {% elif forloop.counter == 3 %}
+                        <span class="rank-span bronze">{{ forloop.counter }}</span>
+                        <span class="text-under-bronze">{{ row.rcp_nm }}</span>
+                        {% else %}
+                        <span class="rank-span">{{ forloop.counter }}</span>
+                        {{ row.rcp_nm }}
+                        {% endif %}
+                    </h6>
+
+                    <span class="text-primary fw-bold">#{{row.rcp_pat2}} #{{row.rcp_way2}}</span>
+
+                </div>
+                {% endfor %}
+
+            </div>
+        </div> <!--tiny-container-->
+
+    </div>
+</article>
+
+
+<script type="text/javascript" src="{% static 'recsys/recsys_2/tiny_slider.js' %}"></script>

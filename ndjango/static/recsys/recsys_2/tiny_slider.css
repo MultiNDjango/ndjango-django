@@ -1,0 +1,182 @@
+.tiny-container {
+    position: relative;
+    margin-top: 3%;
+}
+h1 {
+    text-align: center;
+    padding-bottom: 15px;
+    font-family: Montserrat;
+}
+.control {
+    list-style: none;
+}
+.control li {
+    position: absolute;
+    z-index: 99;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 12px 20px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.control li:hover {
+    background: #000;
+}
+.control li.prev {
+    left: 20px;
+}
+.control li.next {
+    right: 20px;
+}
+
+
+
+
+.tns-nav {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.tns-nav button {
+    height: 13px;
+    width: 8px;
+    background-color: #a5a5a5;
+    border: none;
+    margin-left: 7px;
+    border-radius: 50%;
+}
+.tns-nav .tns-nav-active {
+    background-color: black;
+}
+/* .scale{
+  animation-name: scale;
+  transform-origin: center
+}
+@keyframes scale{
+  from {
+    transform: rotate(90deg);
+  }
+  to{
+    transform: rotate(0deg);
+  }
+} */
+/* Youtube link */
+.link {
+    position: fixed;
+    background-color: #d12322;
+    padding: 23px 40px;
+    right: 0;
+    border-radius: 5px;
+    top: 0;
+    font-size: 18px;
+    font-weight: 500;
+    color: #fff;
+    text-decoration: none;
+    text-transform: capitalize;
+    transition: all 0.1s ease-in-out;
+}
+
+.link i {
+    padding-left: 7px;
+}
+
+.link:hover {
+    text-decoration: underline;
+    background-color: black;
+}
+
+
+/* rank circle */
+
+.rank-circle {
+    width: 10px;
+    background-color: #76ACDA;
+    border-radius: 70%;
+    flex:1;
+}
+
+.rank-span {
+    font-size: xx-large;
+    color: #004aad;
+}
+
+
+.gold {
+    color: gold;
+    /*background-image: url("https://s2.svgbox.net/hero-solid.svg?ic=heart");*/
+
+}
+
+.text-under-gold {
+    position: relative;
+}
+
+.text-under-gold::after {
+    content: "";
+    width: 100%;
+    height: 10px;
+    background: gold;
+    position: absolute;
+    display: inline-block;
+    left: 0;
+    bottom: 1px;
+    z-index: -1;
+}
+
+.silver {
+    color: #DCDCDC;
+}
+
+.text-under-silver {
+    position: relative;
+}
+
+.text-under-silver::after {
+    content: "";
+    width: 100%;
+    height: 10px;
+    background: #DCDCDC;
+    position: absolute;
+    display: inline-block;
+    left: 0;
+    bottom: 1px;
+    z-index: -1;
+}
+
+.bronze {
+    color: #E0AB8D;
+}
+.text-under-bronze {
+    position: relative;
+}
+
+.text-under-bronze::after {
+    content: "";
+    width: 100%;
+    height: 10px;
+    background: #E0AB8D;
+    position: absolute;
+    display: inline-block;
+    left: 0;
+    bottom: 1px;
+    z-index: -1;
+}
+
+/* name a link */
+a:link {
+    text-decoration: none;
+    color: black;
+}
+.name-link a:visited {
+    text-decoration: none;
+    color: black;
+}
+.name-link a:hover {
+    text-decoration: none;
+}
+.name-link a:active {
+    text-decoration: none;
+}
+

@@ -1,0 +1,24 @@
+
+
+.def-text {
+    font-size: small;
+    color: #888;
+}
+
+.main-image {
+    min-width: 13em;
+    max-width: 28em;
+    max-height: 500px;
+    object-fit: cover;
+    background-position: center;
+    object-fit: cover;
+}
+
+
+.dotted-hr {
+    border-top: 1px dashed #bbb;
+}
+
+.bigger-img {
+    width: 300px;
+}

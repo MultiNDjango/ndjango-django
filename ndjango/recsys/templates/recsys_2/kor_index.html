@@ -3,56 +3,47 @@
 
 {% include 'recsys_2/top_banner.html'%}
 
-<article class="bg-light mt-5">
-    <div class="container-lg">
-        <div class="text-left pt-4">
-            <h2>냉장고 재료를 최대한 활용해요!</h2>
-            <p class="lead text-muted">지금 냉장고에 있는 재료로 만들 수 있어요</p>
-        </div>
-
-
-        <div class="row justify-content-center">
-            {% for i in n %}
-            <div class="card" style="width: 14rem;">
-                <img class="card-img-top" src="http://www.foodsafetykorea.go.kr/uploadimg/cook/10_00159_1.png" alt="Card image cap">
-                <div class="card-body">
-                    <h6 class="card-title">브로콜리 컬리플라워 샐러드와 두유 요거트 소스</h6>
-                    <span class="card-text">#반찬</span>
-                    <span class="card-text">#찌기</span>
-                </div>
-            </div>
-            {% endfor %}
-
-
-        </div>
-
-
-        <div class="row my-1 g-0 align-items-center justify-content-center">
-            <!--card-->
-            {% for i in n %}
-            <div class="col-6 col-lg-3 col-xl-3">
-                <div class="card border-0" style="width: 15rem;">
-                    <img src="http://www.foodsafetykorea.go.kr/uploadimg/cook/10_00159_1.png" class="card-img-top" alt="...">
-                    <div class="card-body text-center">
-                        <h5 class="card-title fw-bold">브로콜리 컬리플라워 샐러드와 두유 요거트 소스</h5>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
+{% include 'recsys_2/tiny_slider.html' with recipe_list=total title="냉장고 재료를 최대한 활용해요!" subtitle="지금 냉장고에 있는 재료로 만들 수 있어요" num="1" control="custom-control1" %}
 
 
 
+<p>here</p>
 
 
-
-    </div><!-- end container -->
-</article>
 
 
 {% endblock %}
 
+<!--<article class="bg-light mt-5">-->
+<!--    <div class="container-lg">-->
+<!--        <div class="text-left pt-4">-->
+<!--            <h2>냉장고 재료를 최대한 활용해요!</h2>-->
+<!--            <p class="lead text-muted">지금 냉장고에 있는 재료로 만들 수 있어요</p>-->
+<!--        </div>-->
 
-<!--{% include 'recsys_2/carousel.html' with name=total.ingredients.recipe title="냉장고를 털어볼까요?" %}-->
-<!--{% include 'recsys_2/carousel.html' with name=veges.ingredients.recipe title="양파, 감자를 활용한 레시피" %}-->
-<!--{% include 'recsys_2/carousel.html' with name=allergy.ingredients.recipe title="내가 가진 채소로 만들 수 있는 요리"%}-->
-<!--{% include 'recsys_2/carousel.html' with name=calorie.ingredients.recipe title="🚨소비기한 임박 재료로 만들어요."%}-->
+
+<!--        <div class="row justify-content-center">-->
+<!--            {% for i in n %}-->
+<!--            <div class="card" style="width: 14rem;">-->
+<!--                <img class="card-img-top" src="http://www.foodsafetykorea.go.kr/uploadimg/cook/10_00159_1.png" alt="Card image cap">-->
+<!--                <div class="card-body">-->
+<!--                    <h6 class="card-title">브로콜리 컬리플라워 샐러드와 두유 요거트 소스</h6>-->
+<!--                    <span class="card-text">#반찬</span>-->
+<!--                    <span class="card-text">#찌기</span>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            {% endfor %}-->
+
+<!--        </div>-->
+
+<!--    </div>&lt;!&ndash; end container &ndash;&gt;-->
+<!--</article>-->
+
+
+<!--{% include 'recsys_2/tiny_slider.html' with name=total.ingredients.recipe title="냉장고를 털어볼까요?" %}-->
+<!--{% include 'recsys_2/tiny_slider.html' with name=veges.ingredients.recipe title="양파, 감자를 활용한 레시피" %}-->
+<!--{% include 'recsys_2/tiny_slider.html' with name=allergy.ingredients.recipe title="내가 가진 채소로 만들 수 있는 요리"%}-->
+<!--{% include 'recsys_2/tiny_slider.html' with name=calorie.ingredients.recipe title="🚨소비기한 임박 재료로 만들어요."%}-->
+
+
+<!--{% include 'recsys_2/tiny_slider.html' %}-->

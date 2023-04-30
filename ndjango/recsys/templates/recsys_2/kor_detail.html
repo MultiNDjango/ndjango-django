@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'recsys/recsys_2/kor_detail.css' %}" type="text/css" media="screen" />
+
+<div class="container-md">
+    <div class="pb-2"></div>
+    <hr class="border border-2 opacity-50">
+    <h3 class="display-7">레시피 상세</h3>
+    <p class="text-secondary fs-5">Recipe Detail</p>
+
+    <!-- main info -->
+    <article>
+        <div class="row pt-3 pb-2 my-3 mb-3 justify-content-center">
+            <div class="def-location mb-2">
+                <img src="{% static 'recsys/recsys_2/img/loc_home.jpg' %}" alt="home">
+                <img src="{% static 'recsys/recsys_2/img/loc_arrow.jpg' %}" alt="arrow">
+                <span class="def-text">레시피 추천</span>
+                <img src="{% static 'recsys/recsys_2/img/loc_arrow.jpg' %}" alt="arrow">
+                <span class="def-text">{{ recipe.rcp_nm }}</span>
+            </div>
+
+            <!-- left image -->
+            <div class="col">
+                <img src={{recipe.att_file_no_mk}} class="rounded img-fluid float-left main-image" alt="...">
+            </div>
+            <!-- right recipe info -->
+            <div class="col p-2 border-top border-bottom">
+                {% include 'recsys_2/kor_detail_title.html'%}
+                {% include 'recsys_2/kor_detail_ingredients.html'%}
+                {% include 'recsys_2/kor_detail_nutritions.html'%}
+            </div>
+        </div>
+    </article>
+
+    <!-- cooking process -->
+    <article>
+        <div class="row pt-3 pb-2 my-5 justify-content-center">
+            <hr class="dotted-hr">
+            {% for item in recipe.manual %}
+
+            {% include 'recsys_2/kor_detail_card.html' with no=forloop.counter image=item.image instruction=item.instruction%}
+
+            {% endfor %}
+        </div>
+    </article>
+
+
+</div>
+
+{% endblock %}
+

@@ -11,10 +11,12 @@ body {
 
 /* make drag container visible */
 #redips-drag {
-	border: 2px dashed LightBlue;
-	width: 580px;
+	/*border: 2px dashed LightBlue;*/
+	width: 420px;
+	/*width: 490px;*/
 	padding: 10px;
 	margin: 0px auto;
+	background-color: lightskyblue;
 }
 
 /* set border-collapse */
@@ -23,7 +25,8 @@ div#redips-drag table {
 	border-collapse: separate;
 	border-spacing: 0px;
 	/*width: 580px;*/
-	width: 490px;
+	/*width: 490px;*/
+	width: 100%;
 }
 	/* define margin below first table */
 	.tbl1 {
@@ -52,7 +55,7 @@ div#redips-drag td {
 
 /* table titles */
 div#redips-drag th {
-	font-size: 14pt;
+	font-size: 12pt;
 }
 
 /* drag object (DIV inside table cell) */
@@ -61,9 +64,9 @@ div#redips-drag th {
 	margin-bottom: 1px;
 	margin-top: 1px;
 	text-align: center;
-	font-size: 10pt;
+	font-size: 9pt;
 	width: 70px;
-	height: 20px;
+	height: 24px;
 	line-height: 20px;
 	border-width: 2px;
 	border-style: solid;
@@ -93,12 +96,16 @@ div#redips-drag th {
 	border-color: white;
 }
 
+
 /* DIV row handlers (blue left column) */
 .redips-row {
-	width: 20px;
-	margin: 2px;
-	border-color: SteelBlue;
-	background-color: SteelBlue;
+	/*width: 25px;*/
+	width: 100%;
+	/*margin: 2px;*/
+	border-color: white;
+	/*border-color: SteelBlue;*/
+	/*background-color: SteelBlue;*/
+	background-color: gold;
 	/* round corners */
 	border-radius: 14px; /* Opera, Chrome */
 	-moz-border-radius: 14px; /* FF */
@@ -106,13 +113,15 @@ div#redips-drag th {
 
 /* row handler TD background color */
 .redips-rowhandler {
-	background-color: #76ACDA;
+	/*background-color: #76ACDA;*/
+	background-color: #DCDCDC;
 }
 
 /* marked cells (forbidden access for header and message line) */
 .redips-mark {
 	color: white;
-	background-color: #aaa;
+	/*background-color: #aaa;*/
+	background-color: dodgerblue;
 	text-align: center;
 }
 
@@ -129,4 +138,29 @@ div#redips-drag th {
 /* cell dark */
 .cdark {
 	background-color: #C6C8CB;
+}
+
+/* cell name longer than 4 letters */
+.min-font-size {
+	font-size: 7pt;
+	/*line-height: normal;*/
+	letter-spacing: -1px;
+	line-height: 1%;
+	/*font-stretch : expanded;*/
+}
+
+#joinbtn{
+	text-decoration: none;
+}
+#joinbtn:link{
+	color:#0095f6;
+}
+#joinbtn:hover{
+	color:#0095f6;
+}
+#joinbtn:visited{
+	color:#0095f6;
+}
+#joinbtn:active {
+	color:#87CEFA;
 }

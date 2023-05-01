@@ -1,340 +1,112 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
-	<head>
-        {% load static %}
-		<link rel="short icon" href="#">
-		<meta name="author" content="Darko Bunic"/>
-		<meta name="description" content="Drag and drop table rows with JavaScript"/>
-		<meta name="viewport" content="width=device-width, user-scalable=no"/><!-- "position: fixed" fix for Android 2.2+ -->
-		<script type="text/javascript">
-			var redipsURL = '/javascript/drag-and-drop-table-row/';
-		</script>
+{% extends 'base.html' %}
+{% block content %}
 
-        <link rel="stylesheet" href="{% static 'refrigerators/icon_display/two_doors.css' %}" type="text/css" media="screen" />
-		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <script type="text/javascript" src="{% static 'refrigerators/icon_display/header.js' %}"></script>
-        <script type="text/javascript" src="{% static 'refrigerators/icon_display/redips-drag.js' %}"></script>
-<!--        <script type="text/javascript" src="{% static 'refrigerators/icon_display/redips-drag-min.js' %}"></script>-->
-        <script type="text/javascript" src="{% static 'refrigerators/icon_display/two_doors.js' %}"></script>
-		<script>
-		function button1_click() {
-			console.log("버튼1을 누르셨습니다.");
-		}
-		</script>
+{% load static %}
+<script type="text/javascript">var redipsURL = '/javascript/drag-and-drop-table-row/';</script>
+<link rel="stylesheet" href="{% static 'refrigerators/icon_display/two_doors.css' %}" type="text/css" media="screen" />
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<!--<script type="text/javascript" src="{% static 'refrigerators/icon_display/redips-drag.js' %}"></script>-->
+<script type="text/javascript" src="{% static 'refrigerators/icon_display/redips-drag-min.js' %}"></script>
+<script type="text/javascript" src="{% static 'refrigerators/icon_display/two_doors.js' %}"></script>
 
-		<title>Example 15: Drag and drop table rows</title>
-	</head>
-	<body>
-		<button onclick="button1_click();">버튼 클릭</button>
-		<button onclick="convertToJson();">버튼 클릭</button>
-		<button onclick="tableToJson(
-				'{{ request.user.id }}',
-				document.getElementById('ice-fridge'),
-				document.getElementById('fresh-fridge')
-				);">
-			냉동+냉장
+<article>
+	<!-- tables inside this DIV could contain drag-able content  -->
+	{% csrf_token %}
+	<div>
+		<button type="button" class="btn btn-outline-primary mb-3"
+				onclick="tableToJson('{{ request.user.id }}',document.getElementById('ice-fridge'),document.getElementById('fresh-fridge'))">
+			저장
 		</button>
+	</div>
 
-		<center>
-			<!-- tables inside this DIV could contain drag-able content  -->
-			{% csrf_token %}
-			{{loc_detail}}
-			<p style="color: darkred; font-size: large;">
-				냉장고 60% 완성 (남은 개발: tooltip 연동, 식재료 등록 시 냉장고 자동배치 알고리즘, 냉장고표랑 프론트 연동)
-			</p>
-			<p style="color: darkred; font-size: large;" >
-				추천시스템 60% 완성 (모델完, 남은 개발: 서빙api, 장고 frontend)
-			</p>
+	<div id="redips-drag" style="float:left;">
+		<table class="tbl1" id="ice-fridge">
+			<colgroup>
+				<col width="30"/>
+				<col width="70"/>
+				<col width="70"/>
+				<col width="70"/>
+				<col width="70"/>
+				<col width="70"/>
+			</colgroup>
+			<tbody>
+			<tr>
+				<th colspan="6" class="redips-mark">냉동</th>
+			</tr>
+			{% for ctx in ice %}
+			<tr class="rl">
+				<td class="redips-rowhandler"><div class="redips-drag redips-row"></div></td>
+				{% for k, v in ctx.items %}
+				<td>
+					{% if v %}
+					<div class="redips-drag white">
+						<img src="https://cdn-icons-png.flaticon.com/512/426/426750.png?w=1380&t=st=1681199906~exp=1681200506~hmac=fcb5f90ae7cb363b274dfed7153fa68dc76882a74a0463bac3c9dee263239c25" alt="사과" style="width:15px;">
+						<a href="javascript:void(0)" title="{{v.str}}" id="joinbtn">
+							{% if v.name|length <= 4 %}
+							{{ v.name|slice:":4" }}
+							{% else %}
+							<span class="min-font-size">
+								{{ v.name }}
+							</span>
+							{% endif %}
+						</a>
+						<small name="uid" hidden="hidden">{{ v.id }}</small>
+					</div>
+					{% endif %}
+				</td>
+				{% endfor %}
+			</tr>
+			{% endfor %}
 
-			<button type="button" title="tooltip"
-					class="btn btn-primary"
-					data-bs-toggle="tooltip" >
-				Button
-			</button>
+			<tr>
+				<td colspan="6" class="redips-mark">
+					<span hidden="hidden">Message line</span>
+				</td>
+			</tr>
+			</tbody>
+		</table>
 
-			<div id="redips-drag">
-				<table class="tbl1" id="ice-fridge">
-					<colgroup>
-						<col width="30"/>
-						<col width="70"/>
-						<col width="70"/>
-						<col width="70"/>
-						<col width="70"/>
-						<col width="70"/>
-					</colgroup>
-					<tbody>
-						<tr>
-							<th colspan="6" class="redips-mark">냉동</th>
-						</tr>
+		<table id="fresh-fridge">
+			<colgroup>
+				<col width="30"/>
+				<col width="70"/>
+				<col width="70"/>
+				<col width="70"/>
+				<col width="70"/>
+				<col width="70"/>
+			</colgroup>
+			<tbody>
+			<tr>
+				<th colspan="6" class="redips-mark">냉장</th>
+			</tr>
+			{% for ctx in fresh %}
+			<tr class="rl">
+				<td class="redips-rowhandler"><div class="redips-drag redips-row"></div></td>
+				{% for k, v in ctx.items %}
+				<td>
+					{% if v %}
+					<div class="redips-drag white">
+						<img src="https://cdn-icons-png.flaticon.com/512/426/426750.png?w=1380&t=st=1681199906~exp=1681200506~hmac=fcb5f90ae7cb363b274dfed7153fa68dc76882a74a0463bac3c9dee263239c25" alt="사과" style="width:15px;">
+						<a href="javascript:void(0)" title="{{v.str}}">{{ v.name|slice:":4" }}</a>
+						<small name="uid" hidden="hidden">{{ v.id }}</small>
+					</div>
+					{% endif %}
+				</td>
+				{% endfor %}
+			</tr>
+			{% endfor %}
 
-<!--						<tr class="rd">-->
-<!--							<td class="redips-rowhandler"><div class="redips-drag redips-row"></div></td>-->
-<!--							<td>-->
-<!--								{{ice}}-->
-<!--							</td>-->
-<!--						</tr>-->
-						{% for ctx in ice %}
-							<tr class="rd">
-								<td class="redips-rowhandler"><div class="redips-drag redips-row"></div></td>
-								{% for k, v in ctx.items %}
-								<td>
-									{% if v %}
-										<div class="redips-drag white">
-
-											<img src="https://cdn-icons-png.flaticon.com/512/426/426750.png?w=1380&t=st=1681199906~exp=1681200506~hmac=fcb5f90ae7cb363b274dfed7153fa68dc76882a74a0463bac3c9dee263239c25" alt="사과"
-											style="width:15px;">
-											<small name="uid" hidden="hidden">{{ v.id }}</small>
-											<a href="javascript:void(0)" title="{{v.str}}">{{ v.name }}</a>
-
-										</div>
-									{% endif %}
-								</td>
-<!--                                <td>{{ c }}</td>-->
-								{% endfor %}
-							</tr>
-						{% endfor %}
-
-
-
-<!--                        {% for ctx in foods %}-->
-<!--                            <tr class="rd">-->
-<!--                                <td class="redips-rowhandler"><div class="redips-drag redips-row"></div></td>-->
-<!--                                {% for c in ctx %}-->
-<!--                                <td>-->
-<!--									<div class="redips-drag white">-->
-<!--										<img src="https://cdn-icons-png.flaticon.com/512/426/426750.png?w=1380&t=st=1681199906~exp=1681200506~hmac=fcb5f90ae7cb363b274dfed7153fa68dc76882a74a0463bac3c9dee263239c25" alt="사과"-->
-<!--										style="width:15px;">-->
-<!--										{{ c }}-->
-<!--									</div>-->
-<!--								</td>-->
-<!--&lt;!&ndash;                                <td>{{ c }}</td>&ndash;&gt;-->
-<!--                                {% endfor %}-->
-<!--                            </tr>-->
-<!--                        {% endfor %}-->
-
-<!--						<tr class="rd">-->
-<!--							<td class="redips-rowhandler"><div class="redips-drag redips-row"></div></td>-->
-<!--							<td>-->
-<!--								<div class="redips-drag white">-->
-<!--									<img src="https://cdn-icons-png.flaticon.com/512/426/426750.png?w=1380&t=st=1681199906~exp=1681200506~hmac=fcb5f90ae7cb363b274dfed7153fa68dc76882a74a0463bac3c9dee263239c25"-->
-<!--										 alt="사과" style="width:15px;">-->
-<!--									사과-->
-<!--									<span hidden="hidden">11224021</span>-->
-<!--								</div>-->
-<!--							</td>-->
-<!--							<td>-->
-<!--								<div class="redips-drag white">-->
-<!--									<img src="https://cdn-icons-png.flaticon.com/512/426/426750.png?w=1380&t=st=1681199906~exp=1681200506~hmac=fcb5f90ae7cb363b274dfed7153fa68dc76882a74a0463bac3c9dee263239c25"-->
-<!--										 alt="사과" style="width:15px;">-->
-<!--									딸기-->
-<!--									<span hidden="hidden">22</span>-->
-<!--								</div>-->
-<!--							</td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--							<td class="cdark"></td>-->
-<!--						</tr>-->
+			<tr>
+				<td colspan="6" class="redips-mark">
+					<span hidden="hidden">Message line</span>
+				</td>
+			</tr>
+			</tbody>
+		</table>
 
 
-<!--                        <tr class="rd">-->
-<!--                            <td class="redips-rowhandler"><div class="redips-drag redips-row"></div></td>-->
-<!--                            <td></td>-->
-<!--							<td>-->
-<!--								<div class="redips-drag white">-->
-<!--									<img src="https://cdn-icons-png.flaticon.com/512/426/426750.png?w=1380&t=st=1681199906~exp=1681200506~hmac=fcb5f90ae7cb363b274dfed7153fa68dc76882a74a0463bac3c9dee263239c25"-->
-<!--										 alt="사과" style="width:15px;">-->
-<!--									사과-->
-<!--									<span hidden="hidden">33</span>-->
-<!--								</div>-->
-<!--							</td>-->
-<!--							<td>-->
-<!--								<div class="redips-drag white">-->
-<!--									<img src="https://cdn-icons-png.flaticon.com/512/426/426750.png?w=1380&t=st=1681199906~exp=1681200506~hmac=fcb5f90ae7cb363b274dfed7153fa68dc76882a74a0463bac3c9dee263239c25"-->
-<!--										 alt="사과" style="width:15px;">-->
-<!--									사과-->
-<!--									<span hidden="hidden">44</span>-->
-<!--								</div>-->
-<!--							</td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--						</tr>-->
+	</div>
 
-<!--						<tr class="rd">-->
-<!--&lt;!&ndash;						<tr class="rd">&ndash;&gt;-->
-<!--							<td class="redips-rowhandler"><div class="redips-drag redips-row"></div></td>-->
-<!--&lt;!&ndash;							<td><div class="redips-drag blue">rows</div></td>&ndash;&gt;-->
-<!--                            <td></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--							<td>-->
-<!--								<div class="redips-drag white">-->
-<!--									<img src="https://cdn-icons-png.flaticon.com/512/426/426750.png?w=1380&t=st=1681199906~exp=1681200506~hmac=fcb5f90ae7cb363b274dfed7153fa68dc76882a74a0463bac3c9dee263239c25"-->
-<!--										 alt="사과" style="width:15px;">-->
-<!--									사과-->
-<!--									<span hidden="hidden">55</span>-->
-<!--								</div>-->
-<!--							</td>-->
-<!--						</tr>-->
-<!--                        <tr class="rd">-->
-<!--                            <td class="redips-rowhandler"><div class="redips-drag redips-row"></div></td>-->
-<!--                            <td></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--						</tr>-->
-<!--						<tr class="rd">-->
-<!--                            <td class="redips-rowhandler"><div class="redips-drag redips-row"></div></td>-->
-<!--                            <td></td>-->
-<!--							<td>-->
-<!--								<div class="redips-drag white">-->
-<!--									<img src="https://cdn-icons-png.flaticon.com/512/426/426750.png?w=1380&t=st=1681199906~exp=1681200506~hmac=fcb5f90ae7cb363b274dfed7153fa68dc76882a74a0463bac3c9dee263239c25"-->
-<!--										 alt="사과" style="width:15px;">-->
-<!--									사과-->
-<!--									<span hidden="hidden">66</span>-->
-<!--								</div>-->
-<!--							</td>-->
-<!--							<td></td>-->
-<!--							<td>-->
-<!--								<div class="redips-drag white">-->
-<!--									<img src="https://cdn-icons-png.flaticon.com/512/426/426750.png?w=1380&t=st=1681199906~exp=1681200506~hmac=fcb5f90ae7cb363b274dfed7153fa68dc76882a74a0463bac3c9dee263239c25"-->
-<!--										 alt="사과" style="width:15px;">-->
-<!--									사과-->
-<!--									<span hidden="hidden">77</span>-->
-<!--								</div>-->
-<!--							</td>-->
-<!--							<td></td>-->
-<!--						</tr>-->
-						<tr>
-<!--							<td colspan="6" class="redips-mark" style="display:none;">-->
-							<td colspan="6" class="redips-mark">
-                                <span hidden="hidden">Message line</span>
-                            </td>
-						</tr>
-					</tbody>
-				</table>
+</article>
 
-				<table id="fresh-fridge">
-					<colgroup>
-						<col width="30"/>
-						<col width="70"/>
-						<col width="70"/>
-						<col width="70"/>
-						<col width="70"/>
-						<col width="70"/>
-					</colgroup>
-					<tbody>
-						<tr>
-							<th colspan="6" class="redips-mark">냉장</th>
-						</tr>
-
-						{% for ctx in fresh %}
-						<tr class="rd">
-							<td class="redips-rowhandler"><div class="redips-drag redips-row"></div></td>
-							{% for k, v in ctx.items %}
-							<td>
-								{% if v %}
-								<div class="redips-drag white">
-									<img src="https://cdn-icons-png.flaticon.com/512/426/426750.png?w=1380&t=st=1681199906~exp=1681200506~hmac=fcb5f90ae7cb363b274dfed7153fa68dc76882a74a0463bac3c9dee263239c25" alt="사과"
-										 style="width:15px;">
-<!--									<span hidden="hidden">{{ v }}</span>-->
-
-									<small name="uid" hidden="hidden">{{ v.id }}</small>
-									<a href="javascript:void(0)" title="{{v.str}}">{{ v.name }}</a>
-								</div>
-								{% endif %}
-							</td>
-							<!--                                <td>{{ c }}</td>-->
-							{% endfor %}
-						</tr>
-						{% endfor %}
-
-
-<!--						<tr class="rl">-->
-<!--							<td class="redips-rowhandler"><div class="redips-drag redips-row"></div></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--						</tr>-->
-<!--                        <tr class="rl">-->
-<!--							<td class="redips-rowhandler"><div class="redips-drag redips-row"></div></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--						</tr>-->
-<!--						<tr class="rl">-->
-<!--							<td class="redips-rowhandler"><div class="redips-drag redips-row"></div></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--						</tr>-->
-<!--						<tr class="rl">-->
-<!--							<td class="redips-rowhandler"><div class="redips-drag redips-row"></div></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--						</tr>-->
-<!--						<tr class="rl">-->
-<!--							<td class="redips-rowhandler"><div class="redips-drag redips-row"></div></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--						</tr>-->
-<!--						<tr class="rl">-->
-<!--							<td class="redips-rowhandler"><div class="redips-drag redips-row"></div></td>-->
-<!--							<td></td>-->
-<!--							<td>-->
-<!--								<div class="redips-drag white">-->
-<!--									<img src="https://cdn-icons-png.flaticon.com/512/1182/1182154.png"-->
-<!--										 alt="사과" style="width:15px;">-->
-<!--									밀가루/전분류-->
-<!--									<span hidden="hidden">8000</span>-->
-<!--								</div>-->
-<!--							</td>-->
-<!--							<td>-->
-<!--								<div class="redips-drag white">-->
-<!--									<img src="https://cdn-icons-png.flaticon.com/512/2599/2599603.png"-->
-<!--										 alt="사과" style="width:15px;">-->
-<!--									당류-->
-<!--									<span hidden="hidden">5000</span>-->
-<!--								</div>-->
-<!--							</td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--						</tr>-->
-<!--						<tr class="rl">-->
-<!--							<td class="redips-rowhandler"><div class="redips-drag redips-row"></div></td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--							<td>-->
-<!--								<div class="redips-drag white">-->
-<!--									<img src="https://cdn-icons-png.flaticon.com/512/426/426750.png?w=1380&t=st=1681199906~exp=1681200506~hmac=fcb5f90ae7cb363b274dfed7153fa68dc76882a74a0463bac3c9dee263239c25"-->
-<!--										 alt="사과" style="width:15px;">-->
-<!--									과일류-->
-<!--									<span hidden="hidden">8081</span>-->
-<!--								</div>-->
-<!--							</td>-->
-<!--							<td></td>-->
-<!--							<td></td>-->
-<!--						</tr>-->
-						<tr>
-							<td colspan="6" class="redips-mark"><span>Message line</span></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</center>
-	</body>
-</html>
+{% endblock %}

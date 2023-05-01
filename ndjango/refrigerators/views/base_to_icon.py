@@ -1,61 +1,44 @@
 from refrigerators.serializers import LocationSerializer
-from refrigerators.models import Location, Grocery
-
+from refrigerators.models import Location
+from django.core.exceptions import ObjectDoesNotExist
 
 '''
 식재료 등록/삭제 후 냉장고 icon(location)과 연동하는 모듈
 '''
 
 
-def initialize_location(user_pk):
-    init_dict = {"냉동": [
-        {1: None, 2: None, 3: None, 4: None, 5: None},
-        {1: None, 2: None, 3: None, 4: None, 5: None},
-        {1: None, 2: None, 3: None, 4: None, 5: None},
-        {1: None, 2: None, 3: None, 4: None, 5: None},
-        {1: None, 2: None, 3: None, 4: None, 5: None}
-    ],
-        "냉장": [
-            {1: None, 2: None, 3: None, 4: None, 5: None},
-            {1: None, 2: None, 3: None, 4: None, 5: None},
-            {1: None, 2: None, 3: None, 4: None, 5: None},
-            {1: None, 2: None, 3: None, 4: None, 5: None},
-            {1: None, 2: None, 3: None, 4: None, 5: None},
-            {1: None, 2: None, 3: None, 4: None, 5: None},
-            {1: None, 2: None, 3: None, 4: None, 5: None}
-        ]}
+def initialize_location(user_pk, if_init=False):
+    # record already exist with Null value
+    if if_init:
+        location = Location.objects.get(user=user_pk)
+        location.location = LocationSerializer.init_dict
+        # location.location = init_dict
+        location.save()
+        return location
 
-    location = Location.objects.get(user=user_pk)
-    location.location = init_dict
-    location.save()
+    # create new location instance
+    data_dict = {
+        'user': user_pk,
+        'location': LocationSerializer.init_dict
+    }
+
+    serializer = LocationSerializer(data=data_dict)
+    if serializer.is_valid():
+        serializer.save()
+        location = Location.objects.get(user=user_pk)
 
     return location
 
 
 def set_grocery_location(grocery_pk, user_pk):
     # load user location
-    location = Location.objects.get(user=user_pk)
-    if not location.location:
+    try:
+        location = Location.objects.get(user=user_pk)
+    except ObjectDoesNotExist:
         location = initialize_location(user_pk)
-        # init_dict = {"냉동": [
-        #             {1: None, 2: None, 3: None, 4: None, 5: None},
-        #             {1: None, 2: None, 3: None, 4: None, 5: None},
-        #             {1: None, 2: None, 3: None, 4: None, 5: None},
-        #             {1: None, 2: None, 3: None, 4: None, 5: None},
-        #             {1: None, 2: None, 3: None, 4: None, 5: None}
-        #         ],
-        #         "냉장": [
-        #             {1: None, 2: None, 3: None, 4: None, 5: None},
-        #             {1: None, 2: None, 3: None, 4: None, 5: None},
-        #             {1: None, 2: None, 3: None, 4: None, 5: None},
-        #             {1: None, 2: None, 3: None, 4: None, 5: None},
-        #             {1: None, 2: None, 3: None, 4: None, 5: None},
-        #             {1: None, 2: None, 3: None, 4: None, 5: None},
-        #             {1: None, 2: None, 3: None, 4: None, 5: None}
-        #         ]}
-        # location = Location.objects.get(user=user_pk)
-        # location.location = init_dict
-        # location.save()
+
+    if not location.location:
+        location = initialize_location(user_pk, True)
 
     location_serializer = LocationSerializer(location)
 

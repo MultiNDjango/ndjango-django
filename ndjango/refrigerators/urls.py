@@ -3,7 +3,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from refrigerators.views import base_crud
-from refrigerators.individual_urls.barcode_insert import urlpatterns as barcode_urls
+from refrigerators.individual_urls.barcode_urls import urlpatterns as barcode_urls
 from refrigerators.individual_urls.base_urls import urlpatterns as base_urls
 from refrigerators.individual_urls.icon_urls import urlpatterns as icon_urls
 # from refrigerators.individual_urls.photo_urls import urlpatterns as photo_urls

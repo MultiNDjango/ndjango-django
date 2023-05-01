@@ -77,12 +77,13 @@ def register_manual(request):
             else :
                 grocery.image = None
 
+            grocery.save()
+
             # 냉장고에 식재료 위치 배정
             rst_instance = set_grocery_location(grocery.id, request.user.id)
             if not rst_instance:
                 print("fridge is full")
 
-            grocery.save()
 
             return redirect('refrigerators:index')
         else:

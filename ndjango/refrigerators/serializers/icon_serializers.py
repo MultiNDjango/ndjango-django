@@ -5,6 +5,24 @@ from refrigerators.models.icon_models import Location
 class LocationSerializer(serializers.ModelSerializer):
     # user = serializers.IntegerField(required=False, allow_blank=True)
     # location = serializers.JSONField(required=False, allow_blank=True)
+
+    init_dict = {"냉동": [
+        {1: None, 2: None, 3: None, 4: None, 5: None},
+        {1: None, 2: None, 3: None, 4: None, 5: None},
+        {1: None, 2: None, 3: None, 4: None, 5: None},
+        {1: None, 2: None, 3: None, 4: None, 5: None},
+        {1: None, 2: None, 3: None, 4: None, 5: None}
+    ],
+        "냉장": [
+            {1: None, 2: None, 3: None, 4: None, 5: None},
+            {1: None, 2: None, 3: None, 4: None, 5: None},
+            {1: None, 2: None, 3: None, 4: None, 5: None},
+            {1: None, 2: None, 3: None, 4: None, 5: None},
+            {1: None, 2: None, 3: None, 4: None, 5: None},
+            {1: None, 2: None, 3: None, 4: None, 5: None},
+            {1: None, 2: None, 3: None, 4: None, 5: None}
+        ]}
+
     class Meta:
         model = Location
         fields = ['user', 'location']

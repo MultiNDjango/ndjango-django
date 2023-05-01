@@ -120,6 +120,7 @@ DATABASES = {
 }
 
 TEST_DB = 'contents1'
+# TEST_DB = None
 
 if TEST_DB:
     DATABASES['default']['NAME'] = TEST_DB

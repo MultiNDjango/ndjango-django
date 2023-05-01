@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    {% if expiring_groceries %}
+    <div class="row pt-4 my-3">
+        <div class="col-md-12" style="float: left;">
+            <h3>소비기한이 임박하거나 만료된 식재료</h3>
+        </div>
+    </div>
+    <div class="row my-3">
+        <table class="table table-hover table-bordered">
+            <thead>
+                <th>No</th>
+                <th>제품명</th>
+                <th>카테고리</th>
+                <th>수량</th>
+                <th>입고일</th>
+                <th>소비기한</th>
+                <th>사진</th>
+                <th>구매</th>
+            </thead>
+            <tbody>
+                {% for grocery in expiring_groceries %}
+                <tr>
+                    <td>{{ forloop.revcounter }}</td>
+                    <td><a href="{% url 'refrigerators:view' grocery.id %}">{{ grocery.name }}</a></td>
+                    <td>{{ grocery.get_category_display_name }}</td>
+                    <td>{{ grocery.qty }}</td>
+                    <td>{{ grocery.in_date|date:"Y-m-d" }}</td>
+                    <td>{{ grocery.exp_date|date:"Y-m-d" }}</td>
+                    {% if grocery.image %}
+                        <td>
+                            <a href="{% url 'refrigerators:image' grocery.id %}" target="_blank">확인</a>
+                        </td>
+                        {% else %}
+                        <td>
+                            <a href="{% url 'refrigerators:edit' grocery.id %}">등록</a>
+                        </td>
+                    {% endif %}
+                    <td>
+                        <a href="https://www.coupang.com/np/search?component=&q={{ grocery.name }}" onclick="if(!confirm('{{ grocery.name }} 추가 구매를 원하십니까? \n구매 페이지로 이동합니다.')){return false;}" class="btn btn-outline-primary btn-sm" target="_blank">구매</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div style="float:right;">
+            <a href="{% url 'refrigerators:index' %}" class="btn btn-primary">식재료 목록</a>
+        </div>
+    </div>
+    {% else %}
+    <div class="row pt-4 my-3">
+        <div class="col-md-12" style="float: left;">
+            <h3>소비기한이 3일 이내로 남은 식재료가 없습니다.</h3>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row pt-4 my-3">
+        <div class="col-md-12">
+            <h3>식재료 등록 방법 선택</h3>
+        </div>
+    </div>
+    <div class="row my-3"></div>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="insertion_method" id="manual" value="manual" checked>
+          <label class="form-check-label" for="manual">
+            수기 입력
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="insertion_method" id="photo" value="photo">
+          <label class="form-check-label" for="photo">
+            사진 인식
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="insertion_method" id="barcode" value="barcode">
+          <label class="form-check-label" for="barcode">
+            바코드 인식
+          </label>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">다음</button>
+            <a href="{% url 'refrigerators:index' %}" class="btn btn-primary">식재료 목록</a>
+        </div>
+    </form>
+</div>
+
+{% if error_message %}
+    <script>
+        alert('{{ error_message }}');
+    </script>
+{% endif %}
+
+{% endblock %}

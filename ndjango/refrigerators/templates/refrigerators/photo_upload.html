@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row pt-4 my-3">
+        <div class="col-md-12">
+            <h3>사진으로 식재료 등록</h3>
+        </div>
+    </div>
+    <div class="row my-3"></div>
+        <form action="" method="post" enctype="multipart/form-data" id="upload-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div id="image-preview" style="display:none;">
+                <img id="preview-image" src="#" alt="Image Preview" width="300px">
+            </div>
+            <div style="padding: 5px 50px; float:right;">
+                <input class="btn btn-primary" type="submit" value="사진 업로드 및 분석">
+                <a href="{% url 'refrigerators:index' %}" class="btn btn-primary">식재료 목록</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function(){
+            var output = document.getElementById('preview-image');
+            output.src = reader.result;
+            document.getElementById('image-preview').style.display = 'block';
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+    document.getElementById('id_image').addEventListener('change', previewImage);
+</script>
+
+{% endblock %}

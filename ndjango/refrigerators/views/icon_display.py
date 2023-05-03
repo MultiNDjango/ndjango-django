@@ -8,9 +8,12 @@ from rest_framework.parsers import JSONParser
 from rest_framework import status
 # from rest_framework.renderers import JSONRenderer
 
-from refrigerators.models import Location, Grocery
+from refrigerators.models import Location
+from refrigerators.models import Grocery
+from refrigerators.models import Icon
 from refrigerators.serializers import LocationSerializer
 from refrigerators.serializers import GrocerySerializer
+from refrigerators.serializers import IconSerializer
 # from django.views.decorators.csrf import csrf_exempt
 # from django.views.decorators.csrf import csrf_protect
 from django.core.exceptions import ObjectDoesNotExist
@@ -83,21 +86,31 @@ def two_doors(request):
         [[dict_fresh_ice.append(int(v)) for _, v in dict_fi.items() if v] for dict_fi in fridge_dict['location']['냉장']]
         # print(dict_fresh_ice) # [1, 2]
 
-        # grocery dict
+        # load icon dict
+        icon_imgs = Icon.objects.all()
+        icon_serializer = IconSerializer(icon_imgs, many=True)
+        icon_data = icon_serializer.data
+        icon_dict = IconSerializer.get_icon_dict(icon_data)
+
+        # restructure grocery dict
         grocery_info = Grocery.objects.filter(pk__in=dict_fresh_ice)
         grocery_serializer = GrocerySerializer(grocery_info, many=True)
         grocery_data = grocery_serializer.data
         grocery_dict = {}
         for grc in grocery_data:
+            re_category = icon_dict[grc['category']]['re_category']
+            icon_img = icon_dict[grc['category']]['icon_img']
             cur_id = str(grc['id'])
             grocery_dict[cur_id] = {
                 'id': int(grc['id']),
                 'name': grc['name'],
                 'category': grc['category'],
+                're_category': re_category,
                 'qty': grc['qty'],
                 'in_date': grc['in_date'],
                 'exp_date': grc['exp_date'],
-                'str': f"이름: {grc['name']}, 카테고리: {grc['category']}, 수량: {grc['qty']}, 입고일: {grc['in_date']}, 소비기한: {grc['exp_date']}"
+                'icon_img': icon_img,
+                'str': f"이름: {grc['name']}, 카테고리: {re_category}, 수량: {grc['qty']}, 입고일: {grc['in_date']}, 소비기한: {grc['exp_date']}"
             }
 
         # tmp = fridge['location']['냉동']

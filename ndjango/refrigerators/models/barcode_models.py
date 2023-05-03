@@ -18,6 +18,7 @@ class BarcodeInfo(models.Model):
 
 class Icon(models.Model):
     icon_id = models.IntegerField(null=False, primary_key=True)
+    category = models.CharField(max_length=500, null=False, default='')
     re_category = models.CharField(max_length=500, null=False, default='')
     icon_img = models.BinaryField(blank=True)
 

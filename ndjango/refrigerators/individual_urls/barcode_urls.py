@@ -1,10 +1,8 @@
-from django.urls import path, include
-from refrigerators.views import barcode_insert
-
-'''
-바코드 입력 모듈
-'''
+from django.urls import path
+from refrigerators import views
 
 urlpatterns = [
-    path('a', barcode_insert.view_a, name="view_a"),
+    path('', views.search_barcode, name='search_barcode'),
+    path('barcode_info/<barcode>/', views.barcode_info, name='barcode_info'),
 ]
+

@@ -1,0 +1,17 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Barcode Info</title>
+</head>
+<body>
+    <h1>{{ barcode_info.barcode|slice:"1:" }}</h1>
+    <p>Product name: {{ barcode_info.pd_name }}</p>
+    <p>Category: {{ barcode_info.category }}</p>
+    <p>Re category: {{ barcode_info.re_category }}</p>
+    <p>Best before: {{ barcode_info.best_before }}</p>
+    <p>Supplier: {{ barcode_info.supplier }}</p>
+
+</body>
+</html>

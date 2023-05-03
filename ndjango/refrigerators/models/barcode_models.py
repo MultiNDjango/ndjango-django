@@ -13,7 +13,7 @@ class BarcodeInfo(models.Model):
     supplier = models.CharField(max_length=500)
 
     def __str__(self):
-        return self.name
+        return self.pd_name
 
 
 class Icon(models.Model):

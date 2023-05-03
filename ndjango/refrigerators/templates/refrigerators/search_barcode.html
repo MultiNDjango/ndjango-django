@@ -1,0 +1,23 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Barcode_input</title>
+</head>
+<body>
+    <h1>제품의 바코드를 입력하세요!</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="text" name="barcode" placeholder="Enter barcode">
+        <input type="submit" value="Search">
+    </form>
+    <br>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="photo">
+        <input type="submit" value="사진으로 바코드 분석">
+    </form>
+
+</body>
+</html>

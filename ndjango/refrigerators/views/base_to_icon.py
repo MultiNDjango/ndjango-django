@@ -2,6 +2,7 @@ from refrigerators.serializers import LocationSerializer
 from refrigerators.models import Location
 from django.core.exceptions import ObjectDoesNotExist
 
+
 '''
 식재료 등록/삭제 후 냉장고 icon(location)과 연동하는 모듈
 '''
@@ -12,7 +13,6 @@ def initialize_location(user_pk, if_init=False):
     if if_init:
         location = Location.objects.get(user=user_pk)
         location.location = LocationSerializer.init_dict
-        # location.location = init_dict
         location.save()
         return location
 

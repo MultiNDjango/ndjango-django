@@ -13,6 +13,7 @@ from refrigerators.serializers import LocationSerializer
 from refrigerators.serializers import GrocerySerializer
 # from django.views.decorators.csrf import csrf_exempt
 # from django.views.decorators.csrf import csrf_protect
+from django.core.exceptions import ObjectDoesNotExist
 
 '''
 냉장고 식재료 위치 제어 모듈
@@ -20,26 +21,43 @@ from refrigerators.serializers import GrocerySerializer
 
 
 def view_d(request):
+    # sample test
     return HttpResponse('homepage')
 
 
-def get_init_val():
-    return {"냉동": [
-                    {1: None, 2: None, 3: None, 4: None, 5: None},
-                    {1: None, 2: None, 3: None, 4: None, 5: None},
-                    {1: None, 2: None, 3: None, 4: None, 5: None},
-                    {1: None, 2: None, 3: None, 4: None, 5: None},
-                    {1: None, 2: None, 3: None, 4: None, 5: None}
-                ],
-                "냉장": [
-                    {1: None, 2: None, 3: None, 4: None, 5: None},
-                    {1: None, 2: None, 3: None, 4: None, 5: None},
-                    {1: None, 2: None, 3: None, 4: None, 5: None},
-                    {1: None, 2: None, 3: None, 4: None, 5: None},
-                    {1: None, 2: None, 3: None, 4: None, 5: None},
-                    {1: None, 2: None, 3: None, 4: None, 5: None},
-                    {1: None, 2: None, 3: None, 4: None, 5: None}
-                ]}
+def initialize_location(user_pk, if_init=False):
+    # record already exist with Null value
+    if if_init:
+        location = Location.objects.get(user=user_pk)
+        location.location = LocationSerializer.init_dict
+        location.save()
+        return location
+
+    # create new location instance
+    data_dict = {
+        'user': user_pk,
+        'location': LocationSerializer.init_dict
+    }
+
+    serializer = LocationSerializer(data=data_dict)
+    if serializer.is_valid():
+        serializer.save()
+        location = Location.objects.get(user=user_pk)
+
+    return location
+
+
+def load_fridge_location(user_pk):
+    # load user location
+    try:
+        location = Location.objects.get(user=user_pk)
+    except ObjectDoesNotExist:
+        location = initialize_location(user_pk)
+
+    if not location.location:
+        location = initialize_location(user_pk, True)
+
+    return location
 
 
 @api_view(['GET', 'PATCH'])
@@ -52,14 +70,9 @@ def two_doors(request):
             return Response({'msg': 'login required'}, status=status.HTTP_400_BAD_REQUEST)
 
         current_user = request.user
-        location = Location.objects.get(user=current_user.id)
-        if not location.location:
-            init_dict = get_init_val()
-            location = Location.objects.get(user=current_user.id)
-            location.location = init_dict
-            location.save()
 
         # load location
+        location = load_fridge_location(current_user.id)
         location_serializer = LocationSerializer(location)
         fridge = location_serializer.data
         fridge_dict = dict(fridge)
@@ -87,8 +100,7 @@ def two_doors(request):
                 'str': f"이름: {grc['name']}, 카테고리: {grc['category']}, 수량: {grc['qty']}, 입고일: {grc['in_date']}, 소비기한: {grc['exp_date']}"
             }
 
-
-        tmp = fridge['location']['냉동']
+        # tmp = fridge['location']['냉동']
 
         def get_grocery_details(primary_keys: list) -> list:
             details = list()
@@ -108,38 +120,6 @@ def two_doors(request):
         ice = get_grocery_details(fridge['location']['냉동'])
         fresh = get_grocery_details(fridge['location']['냉장'])
 
-        # ice = list()
-        # for row in fridge['location']['냉동']:
-        #     print(row)
-        #     cells = dict()
-        #     for key, val in row.items():
-        #         print(key, val)
-        #         if not val:
-        #             cells[key] = None
-        #             continue
-        #
-        #         cells[key] = grocery_dict[key]
-        #
-        #     ice.append(cells)
-        #
-        # fresh = list()
-        # for row in fridge['location']['냉장']:
-        #     print(row)
-        #     cells = dict()
-        #     for key, val in row.items():
-        #         print(key, val)
-        #         if not val:
-        #             cells[key] = None
-        #             continue
-        #
-        #         cells[key] = grocery_dict[key]
-        #
-        #     fresh.append(cells)
-
-        # context filler
-        # context['ice'] = fridge['location']['냉동']
-        # context['fresh'] = fridge['location']['냉장']
-        # context['loc_detail'] = grocery_dict
         context['ice'] = ice
         context['fresh'] = fresh
 
@@ -148,10 +128,6 @@ def two_doors(request):
     elif request.method == 'PATCH':
         return Response({'msg': 'currently unavailable'}, status=status.HTTP_400_BAD_REQUEST)
         # return JsonResponse({'msg': 'currently unavailable'})
-
-
-# ignore foreign key constrains
-# https://stackoverflow.com/questions/10623854/django-soft-foreignfield-without-database-integrity-checks/11926432#11926432
 
 
 @api_view(['POST', 'PATCH'])
@@ -169,4 +145,6 @@ def loc_patch(request, user):
 
 
 
+# ignore foreign key constrains
+# https://stackoverflow.com/questions/10623854/django-soft-foreignfield-without-database-integrity-checks/11926432#11926432
 

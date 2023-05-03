@@ -2,6 +2,7 @@
     --text-color: #555;
     --background-color: white;
     --hover-color: #ccc;
+    --topbar-background-color: lightgray;
 }
 
 
@@ -17,8 +18,10 @@ a {
 }
 
 #header {
-    background: var(--background-color);
-
+    /*background: var(--background-color);*/
+    /*background: var(--topbar-background-color);*/
+    box-shadow: 0 8px 6px -6px lightgrey;
+    margin-bottom: 12px;
 }
 
 .navbar_topmenu {

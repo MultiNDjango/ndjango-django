@@ -22,4 +22,5 @@ urlpatterns = [
     path('refrigerators/', include('refrigerators.urls')),
     path('recsys/', include('recsys.urls')),
     path('', include('homepage.urls')),
+    path('users/', include('users.urls')),
 ]

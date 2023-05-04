@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from refrigerators.views import photo_insert
 
 '''

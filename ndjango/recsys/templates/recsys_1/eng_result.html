@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<article>
+    <div>{{ search | safe}}</div>
+    <div>{{ message | safe}}</div>
+    <div>{{ img | safe}} </div>
+
+    <button onclick="history.back()">뒤로 가기</button>
+
+   
+</article>
+{% endblock %}

@@ -55,7 +55,7 @@ def insertion_method(request):
             return redirect('refrigerators:register_barcode')
         else:
             # If an invalid insertion method was selected, render the template with an error message
-            error_message = 'Invalid insertion method selected.'
+            error_message = '입력 방법이 제대로 선택되지 않았습니다. 다시 시도해주세요.'
             return render(request, 'refrigerators/insertion_method.html', {'error_message': error_message})
     else:
         # If the request method was not POST, render the template without an error message
@@ -74,23 +74,25 @@ def register_manual(request):
                 fs = FileSystemStorage()
                 filename = fs.save(image.name, image.file)
                 grocery.image = filename
-            else :
+            else:
                 grocery.image = None
 
             grocery.save()
+            request.session.pop('predicted_name', None)  # Remove the predicted name from the session
 
             # 냉장고에 식재료 위치 배정
             rst_instance = set_grocery_location(grocery.id, request.user.id)
             if not rst_instance:
                 print("fridge is full")
 
-
             return redirect('refrigerators:index')
         else:
-            # return bad request response
-            return HttpResponseBadRequest('Form was not valid.')
+            error_message = '정보가 제대로 입력되지 않았습니다. 다시 입력해주세요.'
+            return render(request, 'refrigerators/crud_register.html', {'error_message': error_message})
     else:
-        form = GrocForm()
+        predicted_name = request.session.pop('predicted_name', None)  # Get the predicted name from the session and remove it
+        initial_data = {'name': predicted_name} if predicted_name else {}
+        form = GrocForm(initial=initial_data)
         return render(request, 'refrigerators/crud_register.html', {'form': form})
 
 def register_picture(request):

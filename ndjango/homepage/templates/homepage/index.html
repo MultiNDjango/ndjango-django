@@ -1,16 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="kr">
 <head>
     <meta charset="UTF-8">
     <title>냉장고 ndjango</title>
 </head>
 <body>
     <div>
-        <h1>냉장고 ndjango 앱 메인페이지</h1>
-        <button>버튼</button>
-        <p>로그인</p>
+        <h1>메인페이지</h1>
+        <a href="/"><button>홈으로</button></a>
+                
+        {% if user.is_authenticated %}
+            <a href="{% url 'users:logout' %}"><button>로그아웃</button></a>
+            <a href="{% url 'users:update' %}"><button>회원정보 수정</button></a>
+        {% else %}
+            <a href="{% url 'users:signup' %}"><button>회원가입</button></a>
+            <a href="{% url 'users:login' %}"><button>로그인</button></a>
+        {% endif %}
 
     </div>
 
 </body>
 </html>
+{% endblock %}

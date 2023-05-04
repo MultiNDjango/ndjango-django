@@ -6,6 +6,8 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 class GrocForm(forms.ModelForm):
+    predicted_name = forms.CharField(widget=forms.HiddenInput(), required=False)
+
     class Meta:
         model = Grocery
         fields = ['name', 'category', 'qty', 'in_date', 'exp_date', 'image', 'insertion_method', 'userid', 'parsed_name']

@@ -13,7 +13,7 @@
             {% csrf_token %}
             {{ form.as_p }}
             <div style="padding: 5px 50px; float:right;">
-                <input class="btn btn-primary" type="submit" value="사진 업로드">
+                <input class="btn btn-primary" type="submit" value="식재료 등록">
                 <a href="{% url 'refrigerators:index' %}" class="btn btn-primary">식재료 목록</a>
             </div>
         </form>

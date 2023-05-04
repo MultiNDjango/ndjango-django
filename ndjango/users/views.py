@@ -53,7 +53,7 @@ def update_view(request):
         print(editForm)
         if editForm.is_valid():
             editForm.save()
-            return redirect('/')
+            return redirect('/users/login')
     else:
         user = request.user
         print(user.allergy)

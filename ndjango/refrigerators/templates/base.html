@@ -17,20 +17,25 @@
             <div class="row">
                 <nav class="navbar_topmenu">
                     <div class="util">
-                        <a href="#">로그인</a>
-                        <a href="#">회원가입</a>
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'users:logout' %}"><button>로그아웃</button></a>
+                            <a href="{% url 'users:update' %}"><button>회원정보 수정</button></a>
+                        {% else %}
+                            <a href="{% url 'users:signup' %}"><button>회원가입</button></a>
+                            <a href="{% url 'users:login' %}"><button>로그인</button></a>
+                        {% endif %}
                     </div>
                 </nav>
                 <nav class="navbar">
                     <div class="navbar_logo">
-                        <a href="#"><img class="logo" style="width: 100px;" src="{% static 'homepage/images/logo.png' %}" alt="냉장부 로고"></a>
+                        <a href="/"><img class="logo" style="width: 100px;" src="{% static 'homepage/images/logo.png' %}" alt="냉장부 로고"></a>
                     </div>
 
                     <ul class="navbar_menu">
                         <li><a href="">About</a></li>
                         <li><a href="{% url 'refrigerators:index' %}">My 냉장고<i class="fa-sharp fa-solid fa-angle-down"></i></a></li>
                         <li><a href="">Recipe<i class="fa-sharp fa-solid fa-angle-down"></i></a></li>
-                        <li><a href="">Contact</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
                     </ul>
 
                     <ul class="navbar_icons">
@@ -53,5 +58,28 @@
         {% endblock %}
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- FOOTER -->
+    <footer id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer">
+                    <ul><hr>
+                        <li><a href="#">사이트 도움말</a></li>
+                        <li><a href="#">사이트 이용약관</a></li>
+                        <li><a href="#">사이트 운영원칙</a></li>
+                        <li><a href="#">개인정보취급방침</a></li>
+                        <li><a href="#">고객센터</a></li>
+                    </ul>
+                    <address>
+                        Copyright &copy;
+                        <a href="#"><strong>2023 냉장부</strong>
+                        </a>
+                        All Rights Reserved.
+                    </address>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

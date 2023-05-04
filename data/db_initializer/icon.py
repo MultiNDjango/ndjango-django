@@ -100,7 +100,7 @@ if __name__ == '__main__':
         # number, category, re_category, photo
 
         insertBLOB(idx+1, category_dict[record], record, item)
-        # insertBLOB(idx+1, category_dict[record], record, item, db='contents5')
+        # insertBLOB(idx+1, category_dict[record], record, item, db='contents6')
 
 
 

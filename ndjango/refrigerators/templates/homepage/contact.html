@@ -1,0 +1,49 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+
+<div class="contact_img">
+    <img src="{% static 'homepage/images/contact.png' %}">
+</div>
+
+<section>
+    <h1 class="form_tit">궁금하신 사항이 있으신가요?</h1>
+    <form class="gform" method="post" action="https://script.google.com/macros/s/AKfycbxP1vseYpR3laxP6tf_eWQyFr02jV_6bInm3lkFuo_6MvG1UVZ3z1X2wZt3_pq4KSVHTQ/exec" onsubmit="jbSubmit() name="contactus">
+        <div class="contact">
+            <legend>Contact Us</legend>
+            <div class="formlist">
+                <ul>
+                    <li>
+                        <label for="name">이름 <sup>*</sup></label>
+                        <span class="inputbox"><input type="text" id="name" name="name" required placeholder="이름을 입력해 주세요." /></span>
+                    </li>
+                    <li>
+                        <label for="email">이메일 <sup>*</sup></label>
+                        <span class="inputbox"><input type="email" id="email" name="email" required placeholder="sample@mail.com" /></span>
+                    </li>
+                    <li>
+                        <label for="message">문의 내용 <sup>*</sup></label>
+                        <span class="textbox">
+                        <textarea id="message" name="message" name="message" required placeholder="문의하실 내용을 작성해 주세요."></textarea>
+                        </span>
+                    </li>
+                </ul>
+                <div class="btn_box">
+                    <button type="submit" class="commbtn">전송하기</button>
+                </div>
+                <div class="thankyou_message">
+                    <section>
+                        <h1>문의하신 내용이 성공적으로 전송되었습니다.</h1>
+                        <p>확인 후 빠르게 답변 드리도록 하겠습니다. 감사합니다.</p>
+                        <div class="btn_box">
+                            <a href="" class="commbtn close">닫기</a>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+<script data-cfasync="false" type="text/javascript" src="{% static 'homepage/js/main.js' %}"></script>
+
+{% endblock %}

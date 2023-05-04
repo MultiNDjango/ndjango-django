@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.templatetags.static import static
 from django.shortcuts import redirect
-
+import re
 from recsys.utils.recsys_1.get_recipe import *
 '''
 추천시스템 1 모듈
@@ -12,7 +12,9 @@ def eng_search(request):
 
 def get_recipe_info(request):
     message = request.GET.get('message')
-    messagelist = message.split(',')
+    inputlist = re.split(',| ',message)
+    messagelist = [x for x in inputlist if x != '']
+  
     threshold= 1/(len(messagelist)+1)
 
     if messagelist == ['']:

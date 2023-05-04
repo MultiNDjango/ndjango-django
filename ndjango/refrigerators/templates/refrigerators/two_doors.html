@@ -34,14 +34,14 @@
 				<th colspan="6" class="redips-mark">냉동</th>
 			</tr>
 			{% for ctx in ice %}
-			<tr class="rl">
+			<tr class="rs">
 				<td class="redips-rowhandler"><div class="redips-drag redips-row"></div></td>
 				{% for k, v in ctx.items %}
 				<td>
 					{% if v %}
 					<div class="redips-drag white">
-						<img src="https://cdn-icons-png.flaticon.com/512/426/426750.png?w=1380&t=st=1681199906~exp=1681200506~hmac=fcb5f90ae7cb363b274dfed7153fa68dc76882a74a0463bac3c9dee263239c25" alt="사과" style="width:15px;">
-						<a href="javascript:void(0)" title="{{v.str}}" id="joinbtn">
+						<img src="data:image/png;base64, {{v.icon_img}}" style="width:15px;">
+						<a href="javascript:void(0)" title="{{v.str}}" class="cell-name">
 							{% if v.name|length <= 4 %}
 							{{ v.name|slice:":4" }}
 							{% else %}
@@ -80,7 +80,7 @@
 				<th colspan="6" class="redips-mark">냉장</th>
 			</tr>
 			{% for ctx in fresh %}
-			<tr class="rl">
+			<tr class="rs">
 				<td class="redips-rowhandler"><div class="redips-drag redips-row"></div></td>
 				{% for k, v in ctx.items %}
 				<td>
@@ -88,7 +88,15 @@
 					<div class="redips-drag white">
 <!--						<img src="https://cdn-icons-png.flaticon.com/512/426/426750.png?w=1380&t=st=1681199906~exp=1681200506~hmac=fcb5f90ae7cb363b274dfed7153fa68dc76882a74a0463bac3c9dee263239c25" alt="사과" style="width:15px;">-->
 						<img src="data:image/png;base64, {{v.icon_img}}" style="width:15px;">
-						<a href="javascript:void(0)" title="{{v.str}}">{{ v.name|slice:":4" }}</a>
+						<a href="javascript:void(0)" title="{{v.str}}" class="cell-name">
+							{% if v.name|length <= 4 %}
+							{{ v.name|slice:":4" }}
+							{% else %}
+							<span class="min-font-size">
+								{{ v.name }}
+							</span>
+							{% endif %}
+						</a>
 						<small name="uid" hidden="hidden">{{ v.id }}</small>
 					</div>
 					{% endif %}

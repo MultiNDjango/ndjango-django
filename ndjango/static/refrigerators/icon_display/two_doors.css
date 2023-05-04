@@ -135,6 +135,12 @@ div#redips-drag th {
 	background-color: #eee;
 }
 
+/* row super light skyblue */
+.rs {
+	background-color: #E8F0F3;
+}
+
+
 /* cell dark */
 .cdark {
 	background-color: #C6C8CB;
@@ -149,18 +155,23 @@ div#redips-drag th {
 	/*font-stretch : expanded;*/
 }
 
-#joinbtn{
+.cell-name{
 	text-decoration: none;
+	color: #292929;
 }
-#joinbtn:link{
-	color:#0095f6;
+.cell-name:link{
+	/*color:#0095f6;*/
+	color: #292929;
 }
-#joinbtn:hover{
-	color:#0095f6;
+.cell-name:hover{
+	/*color:#0095f6;*/
+	color: #292929;
 }
-#joinbtn:visited{
-	color:#0095f6;
+.cell-name:visited{
+	/*color:#0095f6;*/
+	color: #292929;
 }
-#joinbtn:active {
-	color:#87CEFA;
+.cell-name:active {
+	/*color:#87CEFA;*/
+	color: #292929;
 }

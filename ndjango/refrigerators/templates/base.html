@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{% static 'homepage/css/topbar_style.css' %}" type="text/css" media="screen" />
     <script src="https://kit.fontawesome.com/de3aa63fdc.js" crossorigin="anonymous"></script>
     <script src="{% static 'homepage/js/main.js' %}" defer></script>
+    <script src="{% static 'homepage/js/topbar.js' %}"></script>
     <title>냉장고를 부탁해: 나의 스마트한 냉장고 가계부</title>
 </head>
 <body>
@@ -33,8 +34,19 @@
 
                     <ul class="navbar_menu">
                         <li><a href="">About</a></li>
-                        <li><a href="{% url 'refrigerators:index' %}">My 냉장고<i class="fa-sharp fa-solid fa-angle-down"></i></a></li>
-                        <li><a href="">Recipe<i class="fa-sharp fa-solid fa-angle-down"></i></a></li>
+                        <li><a href="{% url 'refrigerators:index' %}">My 냉장고</a></li>
+                        <li>
+                            <div class="dropdown">
+                                <a onclick="myFunction()" class="dropbtn">
+                                    Recipes
+                                    <i class="fa-sharp fa-solid fa-angle-down"></i>
+                                </a>
+                                <div id="myDropdown" class="dropdown-content">
+                                    <a href="{% url 'recsys:korean_recipes' %}">한국 레시피</a>
+                                    <a href="{% url 'recsys:eng_recipes_input' %}">영어 레시피</a>
+                                </div>
+                            </div>
+                        </li>
                         <li><a href="{% url 'contact' %}">Contact</a></li>
                     </ul>
 

@@ -6,6 +6,7 @@ from django.shortcuts import render
 import asyncio
 import httpx
 import random
+import datetime
 
 from recsys.models import KoreanRecipe
 from recsys.serializers import KoreanRecipeThumbnailSerializer
@@ -45,58 +46,63 @@ def korean_recipes(request):
     grocery_data = grocery_serializer.data
 
     # items to infer
-    whole_items = [item['name'] for item in grocery_data]
-    veges = [item['name'] for item in grocery_data if item['category'] == 'vegetable']
-    fruits = [item['name'] for item in grocery_data if item['category'] == 'fruit']
+    grc_whole = [item['name'] for item in grocery_data]
+    grc_veges = [item['name'] for item in grocery_data if item['category'] == 'vegetable']
+    grc_fruit = [item['name'] for item in grocery_data if item['category'] == 'fruit']
+    grc_expiring = []
+    # groceries expiring within 5 days
+    limit_date = datetime.datetime.now() + datetime.timedelta(days=5)
+    for item in grocery_data:
+        exp_date = datetime.datetime.strptime(item['exp_date'], '%Y-%m-%d')
+        sub = limit_date - exp_date
+        if datetime.timedelta(days=0) <= sub <= datetime.timedelta(days=6):
+            grc_expiring.append(item['name'])
 
     # user's allergy info
     user_info = CustomUser.objects.get(id=user_pk)
     user_serializer = CustomUserSerializer(user_info)
-    allergy = user_serializer.allergy_in_korean()
+    grc_allergy = user_serializer.allergy_in_korean()
 
     # get recipes through async api calls
-    recipes_total = asyncio.run(async_get_recipes(url, whole_items))
-    recipes_veges = asyncio.run(async_get_recipes(url, veges))
+    recipes_whole = asyncio.run(async_get_recipes(url, grc_whole))
+    recipes_veges = asyncio.run(async_get_recipes(url, grc_veges))
+    recipes_expiring = asyncio.run(async_get_recipes(url, grc_expiring))
     # fruit first but if there's no fruits, any of the whole groceries
     try:
-        fruit = random.choice(fruits)
+        fruit = random.choice(grc_fruit)
         recipes_fruit = asyncio.run(async_get_recipes(url, fruit))
     except IndexError:
-        rand = random.choices(whole_items)
+        rand = random.choices(grc_whole)
         rand_name = rand[0]
         recipes_random = asyncio.run(async_get_recipes(url, rand))
-    recipes_allergy = asyncio.run(async_get_recipes_with_allergy(url, whole_items, allergy))
-    recipes_calorie = asyncio.run(async_get_recipes(url, ['감자', '대파', '부추']))
+    recipes_allergy = asyncio.run(async_get_recipes_with_allergy(url, grc_whole, grc_allergy))
 
-
-    # 여기부터 함수화
-    # recipes_total_list = list(recipes_total['ingredients']['recipe'].values())
-    #
-    # # korean recipe
-    # # recipe_info = KoreanRecipe.objects.values_list('id', 'rcp_nm', 'att_file_no_main').filter(rcp_nm__in=recipes_total_list)
-    # recipe_info = KoreanRecipe.objects.filter(rcp_nm__in=recipes_total_list)
-    # info_val = KoreanRecipeThumbnailSerializer(recipe_info, many=True)
-    #
-    #
-    # sorted_recipe_thumbnails = rcp_tmb_serializer.sort_by_original_order(info_val, recipes_total_list)
-
-    a = 0
-    total = get_sorted_recipe_thumbnail(recipes_total)
+    # restructure recipes
+    whole = get_sorted_recipe_thumbnail(recipes_whole)
     veges = get_sorted_recipe_thumbnail(recipes_veges)
-    allergy = get_sorted_recipe_thumbnail(recipes_allergy)
-    calorie = get_sorted_recipe_thumbnail(recipes_calorie)
 
+    try:
+        fruits = get_sorted_recipe_thumbnail(recipes_fruit)
+
+    except UnboundLocalError:
+        rands = get_sorted_recipe_thumbnail(recipes_random)
+    allergy = get_sorted_recipe_thumbnail(recipes_allergy)
+    expiring = get_sorted_recipe_thumbnail(recipes_expiring)
 
     context = {
-        # 'total': recipes_total,
-        # 'veges': recipes_veges,
-        # 'allergy': recipes_allergy,
-        # 'calorie': recipes_calorie,
-        'total': total,
+        'whole': whole,
         'veges': veges,
         'allergy': allergy,
-        'calorie': calorie,
+        'expiring': expiring,
+        'whole_list': ", ".join(grc_whole),
+        'veges_list': ", ".join(grc_veges),
+        'allergy_list': ", ".join(grc_allergy),
+        'expiring_list': ", ".join(grc_expiring)
     }
+    try:
+        context['fruits'] = fruits
+    except UnboundLocalError:
+        context['rands'] = rands
 
     return render(request, 'recsys_2/kor_index.html', context)
 

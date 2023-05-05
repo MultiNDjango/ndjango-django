@@ -8,8 +8,8 @@
     <div class="bg-light pt-3 pb-2">
 
         <div class="text-left pt-4 ms-3">
-            <h2>{{ title }}</h2>
-            <p class="lead text-muted">{{ subtitle }}</p>
+            <h2>냉장고 재료를 최대한 활용해요!</h2>
+            <p class="lead text-muted"><i style="color: #292929">{{ whole_list }}</i> 등으로 만들 수 있어요</p>
         </div>
 
         <div class="tiny-container">
@@ -25,7 +25,7 @@
 
             <div class="my-slider" style="display: flex;">
 
-                {% for row in total %}
+                {% for row in whole %}
                 <div style="flex:1; width: 300px;">
                     <a href="/recsys/kor-recs/{{row.id}}">
                         <img src={{row.att_file_no_main}} alt="" style="width:300px; height:250px; background-position: center; object-fit: cover; padding: 5px;">
@@ -58,12 +58,14 @@
     </div>
 </article>
 
+
+<!--2. expiring -->
 <article>
     <div class="bg-light pt-3 pb-2">
 
         <div class="text-left pt-4 ms-3">
-            <h2>애호박 숙주</h2>
-            <p class="lead text-muted">애호박 숙주에요</p>
+            <h2>🚨 소비기한 임박 재료를 활용할 수 있는 레시피</h2>
+            <p class="lead text-muted">5일 이내에 <i style="color: #292929">{{ expiring_list }}</i>을(를) 사용해야 해요 😱</p>
         </div>
 
         <div class="tiny-container">
@@ -80,7 +82,124 @@
 
             <div class="my-slider" style="display: flex;">
 
+                {% for row in expiring %}
+                <div style="flex:1; width: 300px;">
+                    <a href="/recsys/kor-recs/{{row.id}}">
+                        <img src={{row.att_file_no_main}} alt="" style="width:300px; height:250px; background-position: center; object-fit: cover; padding: 5px;">
+                    </a>
+
+                    <h6 class="fw-bold" style="flex:1">
+                        {% if forloop.counter == 1 %}
+                        <span class="rank-span gold">{{ forloop.counter }}</span>
+                        <span class="text-under-gold">{{ row.rcp_nm }}</span>
+                        {% elif forloop.counter == 2 %}
+                        <span class="rank-span silver">{{ forloop.counter }}</span>
+                        <span class="text-under-silver">{{ row.rcp_nm }}</span>
+                        {% elif forloop.counter == 3 %}
+                        <span class="rank-span bronze">{{ forloop.counter }}</span>
+                        <span class="text-under-bronze">{{ row.rcp_nm }}</span>
+                        {% else %}
+                        <span class="rank-span">{{ forloop.counter }}</span>
+                        {{ row.rcp_nm }}
+                        {% endif %}
+                    </h6>
+
+                    <span class="text-primary fw-bold">#{{row.rcp_pat2}} #{{row.rcp_way2}}</span>
+
+                </div>
+                {% endfor %}
+
+            </div>
+        </div> <!--tiny-container-->
+
+    </div>
+</article>
+
+
+
+<!--3. vegetables -->
+<article>
+    <div class="bg-light pt-3 pb-2">
+
+        <div class="text-left pt-4 ms-3">
+            <h2>지금 있는 채소로 만들 수 있는 요리🥦</h2>
+            <p class="lead text-muted"><i style="color: #292929">{{ veges_list }}</i> 등으로 만들 수 있어요</p>
+        </div>
+
+        <div class="tiny-container">
+
+            <!--            <ul class="control{{num}}" id={{ control }}>-->
+            <ul class="control" id="custom-control3">
+                <li class="prev">
+                    <b class="fas fa-angle-left fa-2x"></b>
+                </li>
+                <li class="next">
+                    <b class="fas fa-angle-right fa-2x"></b>
+                </li>
+            </ul>
+
+            <div class="my-slider" style="display: flex;">
+
                 {% for row in veges %}
+                <div style="flex:1; width: 300px;">
+                    <a href="/recsys/kor-recs/{{row.id}}">
+                        <img src={{row.att_file_no_main}} alt="" style="width:300px; height:250px; background-position: center; object-fit: cover; padding: 5px;">
+                    </a>
+
+                    <h6 class="fw-bold" style="flex:1">
+                        {% if forloop.counter == 1 %}
+                        <span class="rank-span gold">{{ forloop.counter }}</span>
+                        <span class="text-under-gold">{{ row.rcp_nm }}</span>
+                        {% elif forloop.counter == 2 %}
+                        <span class="rank-span silver">{{ forloop.counter }}</span>
+                        <span class="text-under-silver">{{ row.rcp_nm }}</span>
+                        {% elif forloop.counter == 3 %}
+                        <span class="rank-span bronze">{{ forloop.counter }}</span>
+                        <span class="text-under-bronze">{{ row.rcp_nm }}</span>
+                        {% else %}
+                        <span class="rank-span">{{ forloop.counter }}</span>
+                        {{ row.rcp_nm }}
+                        {% endif %}
+                    </h6>
+
+                    <span class="text-primary fw-bold">#{{row.rcp_pat2}} #{{row.rcp_way2}}</span>
+
+                </div>
+                {% endfor %}
+
+            </div>
+        </div> <!--tiny-container-->
+
+    </div>
+</article>
+
+
+
+<!--4. allergy -->
+<article>
+    <div class="bg-light pt-3 pb-2">
+
+        <div class="text-left pt-4 ms-3">
+            <h2>알러지 유발 재료 없이 만들 수 있는 요리</h2>
+<!--            ❌✖-->
+            <p class="lead text-muted">알러지를 유발하는 <i style="color: #292929">{{ allergy_list }}</i>(은)는 빼고❌, <i style="color: #292929">{{ whole_list }}</i>(은)는 더하고⭕️</p>
+        </div>
+
+        <div class="tiny-container">
+
+            <!--            <ul class="control{{num}}" id={{ control }}>-->
+            <ul class="control" id="custom-control4">
+                <li class="prev">
+                    <b class="fas fa-angle-left fa-2x"></b>
+                </li>
+                <li class="next">
+                    <b class="fas fa-angle-right fa-2x"></b>
+                </li>
+            </ul>
+
+            <div class="my-slider" style="display: flex;">
+
+                {% for row in allergy %}
                 <div style="flex:1; width: 300px;">
                     <a href="/recsys/kor-recs/{{row.id}}">
                         <img src={{row.att_file_no_main}} alt="" style="width:300px; height:250px; background-position: center; object-fit: cover; padding: 5px;">

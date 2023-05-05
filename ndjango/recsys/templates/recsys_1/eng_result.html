@@ -2,6 +2,7 @@
 {% block content %}
 {% load static %}
 <article>
+    <button onclick="history.back()">뒤로 가기</button>
     <div>{{ search | safe}}</div>
     <div>{{ message | safe}}</div>
     <div>{{ img | safe}} </div>

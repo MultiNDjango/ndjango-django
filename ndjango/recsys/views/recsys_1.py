@@ -13,7 +13,7 @@ def eng_search(request):
 def get_recipe_info(request):
     message = request.GET.get('message')
     messagelist = message.split(',')
-    print(messagelist)
+    threshold= 1/(len(messagelist)+1)
 
     if messagelist == ['']:
         recipe_html = f"""
@@ -24,8 +24,8 @@ def get_recipe_info(request):
             """
         searchmessage= '재료를 입력하지 않았습니다'
     else:
-        recinfo = enrecipe_cleaned.loc[get_index(search_recipes(messagelist)),['Title','Instructions','Image_Name','Cleaned_Ingredients']][1:10]
-    
+        recinfo = enrecipe_cleaned.loc[get_index(search_recipes(messagelist,threshold)),['Title','Instructions','Image_Name','Cleaned_Ingredients']][1:10]
+        
         recipe_list = []
         if len(recinfo) > 0:
             for index, row in recinfo.iterrows():

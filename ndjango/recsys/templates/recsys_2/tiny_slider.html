@@ -64,8 +64,13 @@
     <div class="bg-light pt-3 pb-2">
 
         <div class="text-left pt-4 ms-3">
+            {% if min_exp_item %}
+            <h2>소비기한이 가장 빨리 만료되는 재료로 만들 수 있는 요리</h2>
+            <p class="lead text-muted"><i style="color: #292929">{{ min_exp_item }}</i>를 사용해 요리해볼까요?</p>
+            {% else %}
             <h2>🚨 소비기한 임박 재료를 활용할 수 있는 레시피</h2>
             <p class="lead text-muted">5일 이내에 <i style="color: #292929">{{ expiring_list }}</i>을(를) 사용해야 해요 😱</p>
+            {% endif %}
         </div>
 
         <div class="tiny-container">
@@ -122,8 +127,13 @@
     <div class="bg-light pt-3 pb-2">
 
         <div class="text-left pt-4 ms-3">
+            {% if veges_list == "브로콜리" %}
+            <h2>브로콜리로 만들 수 있는 요리🥦</h2>
+            <p class="lead text-muted">오늘 한끼는 건강에 좋은 <i style="color: #292929">{{ veges_list }}</i>를 활용한 음식 어떠세요?</p>
+            {% else %}
             <h2>지금 있는 채소로 만들 수 있는 요리🥦</h2>
             <p class="lead text-muted"><i style="color: #292929">{{ veges_list }}</i> 등으로 만들 수 있어요</p>
+            {% endif %}
         </div>
 
         <div class="tiny-container">
@@ -174,14 +184,15 @@
 </article>
 
 
-
+{% if no_allergy %}
+{% else %}
 <!--4. allergy -->
 <article>
     <div class="bg-light pt-3 pb-2">
 
         <div class="text-left pt-4 ms-3">
             <h2>알러지 유발 재료 없이 만들 수 있는 요리</h2>
-<!--            ❌✖-->
+            <!--            ❌✖-->
             <p class="lead text-muted">알러지를 유발하는 <i style="color: #292929">{{ allergy_list }}</i>(은)는 빼고❌, <i style="color: #292929">{{ whole_list }}</i>(은)는 더하고⭕️</p>
         </div>
 
@@ -231,6 +242,6 @@
 
     </div>
 </article>
-
+{% endif %}
 
 <script type="text/javascript" src="{% static 'recsys/recsys_2/tiny_slider.js' %}"></script>

@@ -36,8 +36,8 @@ def get_sorted_recipe_thumbnail(names):
 def korean_recipes(request):
     url = '127.0.0.1:5000/recipes'
 
-    # if not request.user.is_authenticated:
-    #     pass
+    if request.user.is_anonymous:
+        return render(request, 'recsys_2/kor_404.html')
 
     # user's grocery lists
     user_pk = request.user.id
@@ -45,10 +45,16 @@ def korean_recipes(request):
     grocery_serializer = GrocerySerializer(grocery_info, many=True)
     grocery_data = grocery_serializer.data
 
+    # in case no grocery in fridge
+    if len(grocery_data) == 0:
+        return render(request, 'recsys_2/kor_empty.html')
+
     # items to infer
     grc_whole = [item['name'] for item in grocery_data]
     grc_veges = [item['name'] for item in grocery_data if item['category'] == 'vegetable']
-    grc_fruit = [item['name'] for item in grocery_data if item['category'] == 'fruit']
+    if len(grc_veges) == 0:
+        grc_veges.append('브로콜리')
+
     grc_expiring = []
     # groceries expiring within 5 days
     limit_date = datetime.datetime.now() + datetime.timedelta(days=5)
@@ -57,6 +63,15 @@ def korean_recipes(request):
         sub = limit_date - exp_date
         if datetime.timedelta(days=0) <= sub <= datetime.timedelta(days=6):
             grc_expiring.append(item['name'])
+
+    if_min_exp_item = None
+    if len(grc_expiring) == 0:
+        min_expiring_item = min(grocery_data, key=lambda x: x['exp_date'])
+        min_expiring_item = min_expiring_item['name']
+        grc_expiring.append(min_expiring_item)
+        if_min_exp_item = True
+
+
 
     # user's allergy info
     user_info = CustomUser.objects.get(id=user_pk)
@@ -67,25 +82,11 @@ def korean_recipes(request):
     recipes_whole = asyncio.run(async_get_recipes(url, grc_whole))
     recipes_veges = asyncio.run(async_get_recipes(url, grc_veges))
     recipes_expiring = asyncio.run(async_get_recipes(url, grc_expiring))
-    # fruit first but if there's no fruits, any of the whole groceries
-    try:
-        fruit = random.choice(grc_fruit)
-        recipes_fruit = asyncio.run(async_get_recipes(url, fruit))
-    except IndexError:
-        rand = random.choices(grc_whole)
-        rand_name = rand[0]
-        recipes_random = asyncio.run(async_get_recipes(url, rand))
     recipes_allergy = asyncio.run(async_get_recipes_with_allergy(url, grc_whole, grc_allergy))
 
     # restructure recipes
     whole = get_sorted_recipe_thumbnail(recipes_whole)
     veges = get_sorted_recipe_thumbnail(recipes_veges)
-
-    try:
-        fruits = get_sorted_recipe_thumbnail(recipes_fruit)
-
-    except UnboundLocalError:
-        rands = get_sorted_recipe_thumbnail(recipes_random)
     allergy = get_sorted_recipe_thumbnail(recipes_allergy)
     expiring = get_sorted_recipe_thumbnail(recipes_expiring)
 
@@ -99,10 +100,12 @@ def korean_recipes(request):
         'allergy_list': ", ".join(grc_allergy),
         'expiring_list': ", ".join(grc_expiring)
     }
-    try:
-        context['fruits'] = fruits
-    except UnboundLocalError:
-        context['rands'] = rands
+
+    if if_min_exp_item:
+        context['min_exp_item'] = min_expiring_item
+
+    if len(grc_allergy) == 0:
+        context['no_allergy'] = True
 
     return render(request, 'recsys_2/kor_index.html', context)
 

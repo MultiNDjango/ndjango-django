@@ -112,14 +112,14 @@ DATABASES = {
              'sql_mode': 'traditional',
          },
          'NAME': 'contents',
-         'USER': 'ndjango',
-         'PASSWORD': '1234',
+         'USER': 'root',
+         'PASSWORD': 'star79ww2',
          'HOST': 'localhost',
          'PORT': '3306',
      }
 }
 
-TEST_DB = 'contents6'
+TEST_DB = 'contents'
 # TEST_DB = None
 
 if TEST_DB:

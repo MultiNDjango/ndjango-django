@@ -20,7 +20,7 @@ def photo_upload(request):
             response = requests.post('http://127.0.0.1:5000/predict', files={'image': image})
             prediction = response.json()
             predicted_name = convert_to_grocery_data(prediction)['name']
-            request.session['predicted_name'] = predicted_name  # Store the predicted name in the session
+            request.session['predicted_name'] = predicted_name
             return redirect('refrigerators:register_manual')
     else:
         form = PhotoForm()
@@ -32,22 +32,18 @@ def process_image(image):
     url = 'http://localhost:5000/predict'
     files = {'image': image}
     response = requests.post(url, files=files)
-    print(response.json())
     prediction = response.json()
     return prediction
 
 def convert_to_grocery_data(prediction):
     # Convert the prediction to a list of dictionaries
-    results = prediction['results']
+    result = prediction['result']
     
     # Initialize the Grocery model data dictionary
     grocery_data = {'name': '', 'category': '', 'expiration_date': None}
     
     # Set the name and category fields based on the top predicted object
-    if results:
-        top_result = results[0]
-        grocery_data['name'] = top_result['name']
-        # grocery_data['category'] = top_result['category']
+    grocery_data['name'] = result['name']
     
     return grocery_data
 

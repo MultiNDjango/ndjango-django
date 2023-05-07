@@ -32,7 +32,7 @@ def process_image(image):
     url = 'http://localhost:5000/predict'
     files = {'image': image}
     response = requests.post(url, files=files)
-    print(response.json())
+    # print(response.json())
     prediction = response.json()
     return prediction
 

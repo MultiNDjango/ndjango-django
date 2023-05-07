@@ -16,7 +16,7 @@ body {
 	/*width: 490px;*/
 	padding: 10px;
 	margin: 0px auto;
-	background-color: lightskyblue;
+	background-color: #10ACE6;
 }
 
 /* set border-collapse */
@@ -50,7 +50,8 @@ div#redips-drag table tr {
 	wider border wins over narrower ones / double wins over solid, then dashed, dotted, ridge, outset, groove, inset
 */
 div#redips-drag td {
-	border: 2px groove white;
+	border: 1px dotted white;
+	/*border: 2px groove white;*/
 }
 
 /* table titles */
@@ -99,13 +100,12 @@ div#redips-drag th {
 
 /* DIV row handlers (blue left column) */
 .redips-row {
-	/*width: 25px;*/
-	width: 100%;
+	width: 25px;
 	/*margin: 2px;*/
-	border-color: white;
+	border-color: gray;
+	background-color: white;
 	/*border-color: SteelBlue;*/
 	/*background-color: SteelBlue;*/
-	background-color: gold;
 	/* round corners */
 	border-radius: 14px; /* Opera, Chrome */
 	-moz-border-radius: 14px; /* FF */
@@ -114,14 +114,14 @@ div#redips-drag th {
 /* row handler TD background color */
 .redips-rowhandler {
 	/*background-color: #76ACDA;*/
-	background-color: #DCDCDC;
+	background-color: gold;
 }
 
 /* marked cells (forbidden access for header and message line) */
 .redips-mark {
-	color: white;
+	color: #3c4147;
 	/*background-color: #aaa;*/
-	background-color: dodgerblue;
+	background-color: #FFFFFF;
 	text-align: center;
 }
 
@@ -135,9 +135,14 @@ div#redips-drag th {
 	background-color: #eee;
 }
 
-/* row super light skyblue */
+/* row super light skyblue for fresh */
 .rs {
-	background-color: #E8F0F3;
+	background-color: #C1DBF2;
+}
+
+/* row super light skyblue for ice */
+.rf {
+	background-color: #96C1E8;
 }
 
 

@@ -50,14 +50,12 @@ def update_view(request):
     if request.method == "POST":
 
         editForm = CustomUserChangeForm(request.POST, instance=request.user)
-        print(editForm)
+
         if editForm.is_valid():
             editForm.save()
             return redirect('/users/login')
     else:
         user = request.user
-        print(user.allergy)
-        # print(user.allergy['allergy'])
         if not user.allergy:
             user.allergy = []
         else:

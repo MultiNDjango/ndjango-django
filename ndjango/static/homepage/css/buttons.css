@@ -1,0 +1,30 @@
+
+/* login button */
+.btn, .btn-two {
+    margin: 9px;
+}
+
+a[class*="btn"] {text-decoration: none;}
+input[class*="btn"],
+button[class*="btn"] {border: 0;}
+
+
+/*.btn.mini,*/
+.btn.mini,
+.btn-two.mini,
+.btn-gradient.mini,
+.btn-effect.mini {
+    padding: 2px 8px;
+    font-size: 6px;
+    color: gray;
+    border: 1px solid #C6C8CB;
+}
+
+/* Colors for .btn and .btn-two */
+.btn.cyan, .btn-two.cyan     {background-color: white;}
+
+
+/* color classes for .btn */
+.btn.cyan {box-shadow:0px 1px 0px dodgerblue;}
+.btn.cyan:active {box-shadow: 0 0 dodgerblue; color: white; background-color: dodgerblue;}
+.btn-gradient.cyan:active   {background: #169499;}

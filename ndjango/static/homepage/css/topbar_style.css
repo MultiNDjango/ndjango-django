@@ -427,6 +427,7 @@ legend {
     /*font-size: 16px;*/
     border: none;
     cursor: pointer;
+
 }
 
 .dropbtn:hover, .dropbtn:focus {
@@ -434,9 +435,9 @@ legend {
 }
 
 .dropdown {
-    float: right;
-    position: relative;
-    display: inline-block;
+    /*float: right;*/
+    /*position: relative;*/
+    /*display: inline-block;*/
 }
 
 .dropdown-content {
@@ -461,3 +462,9 @@ legend {
 /*.dropdown a:hover {background-color: #ddd;}*/
 
 .show {display: block;}
+
+
+
+.menu-name {
+    text-decoration: none;
+}

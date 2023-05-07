@@ -103,7 +103,8 @@ a {
 .navbar_toggleBtn {
     display: none;
     position: absolute;
-    right: 125px;
+
+    right: 10px;
     font-size: 24px;
     color: var(--text-color);
 }

@@ -1,16 +1,16 @@
 
 /* login button */
-.btn, .btn-two {
+.btn-1, .btn-two {
     margin: 9px;
 }
 
-a[class*="btn"] {text-decoration: none;}
-input[class*="btn"],
-button[class*="btn"] {border: 0;}
+a[class*="btn-1"] {text-decoration: none;}
+input[class*="btn-1"],
+button[class*="btn-1"] {border: 0;}
 
 
 /*.btn.mini,*/
-.btn.mini,
+.btn-1.mini,
 .btn-two.mini,
 .btn-gradient.mini,
 .btn-effect.mini {
@@ -21,10 +21,10 @@ button[class*="btn"] {border: 0;}
 }
 
 /* Colors for .btn and .btn-two */
-.btn.cyan, .btn-two.cyan     {background-color: white;}
+.btn-1.cyan, .btn-two.cyan     {background-color: white;}
 
 
 /* color classes for .btn */
-.btn.cyan {box-shadow:0px 1px 0px dodgerblue;}
-.btn.cyan:active {box-shadow: 0 0 dodgerblue; color: white; background-color: dodgerblue;}
-.btn-gradient.cyan:active   {background: #169499;}
+.btn-1.cyan {box-shadow:0px 1px 0px dodgerblue;}
+.btn-1.cyan:active {box-shadow: 0 0 dodgerblue; color: white; background-color: dodgerblue;}
+.btn-1-gradient.cyan:active   {background: #169499;}

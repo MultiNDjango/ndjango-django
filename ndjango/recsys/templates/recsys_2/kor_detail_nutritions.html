@@ -3,13 +3,37 @@
 <div class="mb-3">
     <p class="fs-5 fw-bold text-secondary">영양정보</p>
 
-    <span>중량(1인분): {{recipe.info_wgt}}</span>
-    <span>칼로리: {{recipe.info_eng}}</span>
-    <br>
+    {% if recipe.info_wgt %}
+    <span class="me-3">
+        <span class="badge rounded-pill bg-dark">중량(1인분)</span>
+        {{recipe.info_wgt}} g
+    </span>
+    {% endif %}
+
+    {% if recipe.info_eng %}
+    <span>
+        <span class="badge rounded-pill bg-danger">칼로리</span>
+        {{recipe.info_eng}} kcal
+    </span>
+    {% endif %}
+    <br><br>
+
+    {% if recipe.info_car > 0.0 %}
     <span>탄수화물: {{recipe.info_car}}</span>
+    {% endif %}
+
+    {% if recipe.info_pro > 0.0 %}
     <span>단백질: {{recipe.info_pro}}</span>
+    {% endif %}
+
+    {% if recipe.info_fat > 0.0 %}
     <span>지방: {{recipe.info_fat}}</span>
+    {% endif %}
+
+    {% if recipe.info_na > 0.0 %}
     <span>나트륨: {{recipe.info_na}}</span>
+    {% endif %}
+
 </div>
 
 

@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+    body {
+        font-family: 'Noto Sans KR', sans-serif;
+    }
+</style>
+
 {% if user.is_authenticated %}
 <div class="container my-5">
     <div class="row justify-content-center align-items-center">

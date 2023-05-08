@@ -46,6 +46,11 @@
             <div class="text-center mb-5">
                 <h3 class="d-inline-block align-middle">냉장고</h3>
             </div>
+            <div class="row justify-content-between my-3">
+                <div class="d-flex justify-content-end">
+                    <a href="{% url 'refrigerators:insertion_method' %}" class="btn btn-primary">식재료 등록</a>
+                </div>                  
+            </div>
             <div class="row my-3">
                 <table class="table table-hover table-bordered">
                     <thead>
@@ -111,18 +116,17 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="text-center mb-5">
-                <a href="{% url 'refrigerators:insertion_method' %}" class="btn btn-primary">식재료 등록</a>
-            </div>
         </div>
     </div>
 </div>
 
     {% else %}
-    <div class="container">
-        <div class="row pt-4 my-3">
-            <div class="col-md-12" style="float: left;">
-                <h3>로그인을 해 냉장고를 만드세요!</h3>
+    <div class="container my-5">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-9">
+                <div class="text-center mb-5">
+                    <h3 class="d-inline-block align-middle">로그인 후 냉장고를 관리하세요!</h3>
+                </div>
             </div>
         </div>
     </div>
@@ -130,8 +134,3 @@
 {% endif %}
 
 {% endblock %}
-
-.badge-danger {
-    background-color: red;
-    color: white;
-}

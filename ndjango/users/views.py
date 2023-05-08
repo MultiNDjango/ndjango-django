@@ -39,16 +39,13 @@ def signup_view(request):
         else:
             email_errors = form['email'].errors
             nickname_errors = form['nickname'].errors
-            password_errors = form['password'].errors
+            password_errors = form['password1'].errors
             password2_errors = form['password2'].errors
-            print(f'no 회원가입: {email_errors}, {nickname_errors}, {password_errors}, {password2_errors}')
     else:
         form = RegistrationForm()
     return render(request, "users/signup.html", {'form': form})
 
-
-
-@login_required
+@login_required(login_url='users:login')
 def update_view(request):
 
     if request.method == "POST":

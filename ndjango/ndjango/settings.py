@@ -112,8 +112,8 @@ DATABASES = {
              'sql_mode': 'traditional',
          },
          'NAME': 'contents',
-         'USER': 'root',
-         'PASSWORD': 'star79ww2',
+         'USER': 'ndjango',
+         'PASSWORD': '1234',
          'HOST': 'localhost',
          'PORT': '3306',
      }

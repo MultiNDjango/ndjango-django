@@ -1,10 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
-<article>
-    <form action="eng_result/", method="get">
-        <input type="text" name="message"/>
-        <input type="submit" value="검색"/>
-    </form>
-</article>
 
+<style>
+    body {
+        font-family: 'Noto Sans KR', sans-serif;
+    }
+</style>
+
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="text-center mb-5">
+                    <h3 class="d-inline-block align-middle">해외 레시피 검색</h3>
+                </div>
+                <form action="eng_result/" method="get">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="message" placeholder="원하는 식재료를 입력하세요 (여러개 입력시 콤마(,)로 구분)">
+                        <button class="btn btn-primary" type="submit">검색</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}

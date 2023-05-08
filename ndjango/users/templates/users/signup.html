@@ -17,22 +17,53 @@
                 {% csrf_token %}
                 <div class="form-group mb-3">
                     <label for="email">이메일</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="example@email.com">
+                    <input type="email" class="form-control {% if form.email.errors %}is-invalid{% endif %}" id="email" name="email" placeholder="example@email.com">
+                    {% if form.email.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="form-group mb-3">
                     <label for="nickname">닉네임</label>
-                    <input type="nickname" class="form-control" id="nickname" name="nickname" placeholder="nickname">
+                    <input type="nickname" class="form-control {% if form.nickname.errors %}is-invalid{% endif %}" id="nickname" name="nickname" placeholder="nickname">
+                    {% if form.nickname.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.nickname.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="form-group mb-3">
-                    <label for="password">비밀번호</label>
-                    <input type="password" class="form-control" id="password1" name="password1">
+                    <label for="password1">비밀번호</label>
+                    <input type="password" class="form-control {% if form.password1.errors %}is-invalid{% endif %}" id="password1" name="password1" placeholder="비밀번호(영문, 숫자 포함 8자리 이상)">
+                    {% if form.password1.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.password1.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="form-group mb-3">
                     <label for="password2">비밀번호 확인</label>
-                    <input type="password" class="form-control" id="password2" name="password2">
+                    <input type="password" class="form-control {% if form.password2.errors %}is-invalid{% endif %}" id="password2" name="password2" placeholder="비밀번호 확인">
+                    {% if form.password2.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.password2.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
-                <div class="text-center">
+                <div class="text-center mb-3">
                     <input class="btn btn-primary" type="submit" value="회원가입">
+                </div>
+                <div class="text-center mb-3">
+                    <a href="{% url 'users:login' %}" class="btn-sm btn-outline-info">이미 회원이신가요? 로그인</a>
                 </div>
             </form>
             {% if error_message %}

@@ -1,40 +1,47 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="container">
-    <div class="row pt-4 my-3">
-        <div class="col-md-12">
-            <h3>식재료 세부 내용</h3>
-        </div>
-    </div>
-    <div class="row my-3">
-        <table class="table table-bordered">
-            <tr>
-                <td>[식재료 이름] : {{ grocery_list.name }}</td>
-            </tr>
-            <tr>
-                <td>[식재료 종류] : {{ grocery_list.get_category_display_name }}</td>
-            </tr>
-            <tr>
-                <td>[식재료 개수] : {{ grocery_list.qty }}</td>
-            </tr>
-            <tr>
-                <td>[식재료 입고일] : {{ grocery_list.in_date }}</td>
-            </tr>
-            <tr>
-                <td>[식재료 소비기한] : {{ grocery_list.exp_date }}</td>
-            </tr>
-            {% if grocery_list.image %}
+<style>
+    body {
+        font-family: 'Noto Sans KR', sans-serif;
+    }
+</style>
+
+<div class="container my-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-5">
+            <div class="text-center mb-5">
+                <h3 class="d-inline-block align-middle">식재료 세부내용</h3>
+            </div>
+        <div class="row my-3">
+            <table class="table table-bordered">
                 <tr>
-                    <td>[식재료 사진] : <img src="{% url 'refrigerators:image' grocery_list.id %}" alt=사진></td>
-                {% else %}
-                    <td>No image available</td>
+                    <td>제품명 : {{ grocery_list.name }}</td>
                 </tr>
-            {% endif %}
-        </table>
-    </div>
-    <div style="padding: 2px 20px; float:right;">
-        <a href="{% url 'refrigerators:index' %}" class="btn btn-primary">식재료 목록</a>
+                <tr>
+                    <td>종류 : {{ grocery_list.get_category_display_name }}</td>
+                </tr>
+                <tr>
+                    <td>개수 : {{ grocery_list.qty }}</td>
+                </tr>
+                <tr>
+                    <td>입고일 : {{ grocery_list.in_date }}</td>
+                </tr>
+                <tr>
+                    <td>소비기한 : {{ grocery_list.exp_date }}</td>
+                </tr>
+                {% if grocery_list.image %}
+                    <tr>
+                        <td>사진 : <img src="{% url 'refrigerators:image' grocery_list.id %}" alt=사진></td>
+                    {% else %}
+                        <td>등록된 사진이 없습니다.</td>
+                    </tr>
+                {% endif %}
+            </table>
+        </div>
+        <div class="text-center">
+            <a href="{% url 'refrigerators:index' %}" class="btn btn-primary">식재료 목록</a>
+        </div>
     </div>
 </div>
 

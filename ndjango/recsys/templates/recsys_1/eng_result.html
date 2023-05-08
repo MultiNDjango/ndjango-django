@@ -1,14 +1,29 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-<article>
-    <button onclick="history.back()">뒤로 가기</button>
-    <div>{{ search | safe}}</div>
-    <div>{{ message | safe}}</div>
-    <div>{{ img | safe}} </div>
 
-    <button onclick="history.back()">뒤로 가기</button>
+<style>
+    body {
+        font-family: 'Noto Sans KR', sans-serif;
+    }
+</style>
 
-   
-</article>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="text-center mb-5">
+            <h3 class="d-inline-block align-middle">해외 레시피 검색 결과</h3>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <button class="btn btn-primary mb-3" onclick="history.back()">뒤로 가기</button>
+                <div class="a alert alert-info mb-3">{{ search | safe}}</div>
+                <div class="">{{ message | safe}}</div>
+                <div class="">{{ img | safe}}</div>
+                <button class="btn btn-primary" onclick="history.back()">뒤로 가기</button>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

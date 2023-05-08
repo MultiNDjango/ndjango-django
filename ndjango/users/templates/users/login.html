@@ -24,16 +24,16 @@
                 <form action="" method="POST">
                     {% csrf_token %}
                     <div class="form-group mb-3">
-                        <label for="email">이메일</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="example@email.com">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="이메일">
                     </div>
                     <div class="form-group mb-3">
-                        <label for="password">비밀번호</label>
-                        <input type="password" class="form-control" id="password" name="password">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호">
                     </div>
                     <div class="text-center mb-3">
                         <button type="submit" class="btn btn-primary">로그인</button>
-                        <a href="{% url 'users:signup' %}" class="btn btn-outline-primary">회원가입</a>
+                    </div>
+                    <div class="text-center mb-3">
+                        <a href="{% url 'users:signup' %}" class="btn-sm btn-outline-info">회원이 아니신가요? 회원가입</a>
                     </div>
                 </form>
                 {% if error_message %}

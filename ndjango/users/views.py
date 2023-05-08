@@ -17,11 +17,9 @@ def login_view(request):
         
         # 실제 DB에 있는 회원이라면 로그인 진행
         if user is not None:
-            print("로그인 성공")
             login(request, user)
             return redirect('users:login')
         else:
-            print("로그인 실패")
             error_message="이메일 또는 비밀번호를 정확히 입력하세요."
             context = {'error_message': error_message}
             return render(request, "users/login.html", context)
@@ -33,15 +31,21 @@ def logout_view(request):
     return redirect("/")
 
 def signup_view(request):
-
     if request.method == "POST":
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('users:login')
+        else:
+            email_errors = form['email'].errors
+            nickname_errors = form['nickname'].errors
+            password_errors = form['password'].errors
+            password2_errors = form['password2'].errors
+            print(f'no 회원가입: {email_errors}, {nickname_errors}, {password_errors}, {password2_errors}')
     else:
         form = RegistrationForm()
     return render(request, "users/signup.html", {'form': form})
+
 
 
 @login_required
@@ -50,13 +54,12 @@ def update_view(request):
     if request.method == "POST":
 
         editForm = CustomUserChangeForm(request.POST, instance=request.user)
-        print(editForm)
+
         if editForm.is_valid():
             editForm.save()
             return redirect('/users/login')
     else:
         user = request.user
-        print(user.allergy)
         # print(user.allergy['allergy'])
         if not user.allergy:
             user.allergy = []

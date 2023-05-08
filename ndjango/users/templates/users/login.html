@@ -1,29 +1,49 @@
 {% extends 'base.html' %}
 
+{% load static %}
 {% block content %}
-<h3>로그인</h3>
-<br>
+<style>
+    body {
+        font-family: 'Noto Sans KR', sans-serif;
+    }
+</style>
 
-{% if user.is_authenticated %}
-    <p>{{ user.nickname }}님 환영합니다.</p>
-    <a href="{% url 'users:logout' %}">로그아웃</a>
-    <a href="/">홈으로</a>
+<div class="container my-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-4">
+            <div class="text-center mb-4">
+                <h3 class="d-inline-block ml-2">로그인</h3>
+            </div>
+            {% if user.is_authenticated %}
+            <p class="text-center">안녕하세요, {{ user.nickname }}님</p>
+            <div class="text-center">
+                <a href="{% url 'users:logout' %}" class="btn btn-outline-primary mx-2">로그아웃</a>
+                <a href="/" class="btn btn-outline-primary mx-2">홈으로</a>
+            </div>
+                {% else %}
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group mb-3">
+                        <label for="email">이메일</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="example@email.com">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="password">비밀번호</label>
+                        <input type="password" class="form-control" id="password" name="password">
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">로그인</button>
+                        <a href="{% url 'users:signup' %}" class="btn btn-outline-primary">회원가입</a>
+                    </div>
+                </form>
+                {% if error_message %}
+                <div class="alert alert-danger my-3" role="alert">
+                    {{ error_message }}
+                </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>
 
-
-{% else %}
-<form action="" method="POST">
-    {% csrf_token %}
-    <label for="email">이메일:</label>
-    <input type="email" id="email" name="email">
-    <label for="password">비밀번호:</label>
-    <input type="password" name="password">
-    <button type="submit">로그인</button>
-</form>
-    <a href="{% url 'users:signup' %}">회원가입</a>
-
-    {% if error_message %}
-        <p style="color: red">{{ error_message }}</p>
-    {% endif %}
-
-{% endif %}
 {% endblock %}

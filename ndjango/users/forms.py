@@ -54,11 +54,12 @@ class AccountAuthForm(forms.ModelForm):
 class CustomUserChangeForm(UserChangeForm):
     AGE_CHOICES = [(i, str(i)) for i in range(1, 101)]
 
-    age = forms.ChoiceField(choices=AGE_CHOICES)
+    age = forms.ChoiceField(choices=AGE_CHOICES, label="나이")
 
     allergy = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
+        label="알러지",
         choices=(
             ('nuts', '땅콩'),
             ('seafood', '해산물'),
@@ -80,9 +81,15 @@ class CustomUserChangeForm(UserChangeForm):
         ),
     )
 
+    password = None
+
     class Meta:
         model = CustomUser
-        fields = ("email", "nickname", "age", "diet", "allergy")
+        fields = ("email", "nickname", "age", "allergy")
+        labels = {
+            "email" : "이메일",
+            "nickname" : "닉네임",
+        }
 
     def clean_age(self):
         age = int(self.cleaned_data.get('age'))

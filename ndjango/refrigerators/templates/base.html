@@ -6,11 +6,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'homepage/css/topbar_style.css' %}" type="text/css" media="screen" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap" rel="stylesheet">
+
     <script src="https://kit.fontawesome.com/de3aa63fdc.js" crossorigin="anonymous"></script>
     <script src="{% static 'homepage/js/main.js' %}" defer></script>
     <script src="{% static 'homepage/js/topbar.js' %}"></script>
     <title>냉장고를 부탁해: 나의 스마트한 냉장고 가계부</title>
 </head>
+
+<style>
+    nav.navbar_topmenu {
+        font-family: 'Noto Sans KR', sans-serif;
+    }
+</style>
+
 <body>
     <!-- HEADER -->
     <header id="header">
@@ -43,7 +54,7 @@
                                 </a>
                                 <div id="myDropdown" class="dropdown-content">
                                     <a href="{% url 'recsys:korean_recipes' %}">한국 레시피</a>
-                                    <a href="{% url 'recsys:eng_recipes_input' %}">영어 레시피</a>
+                                    <a href="{% url 'recsys:eng_recipes_input' %}">해외 레시피</a>
                                 </div>
                             </div>
                         </li>
@@ -85,7 +96,7 @@
                     </ul>
                     <address>
                         Copyright &copy;
-                        <a href="#"><strong>2023 냉장부</strong>
+                        <a href="https://github.com/MultiNDjango/ndjango-django"><strong>2023 냉장부</strong>
                         </a>
                         All Rights Reserved.
                     </address>

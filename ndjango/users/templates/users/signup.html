@@ -1,22 +1,46 @@
 {% extends 'base.html' %}
+
 {% block content %}
+<style>
+    body {
+        font-family: 'Noto Sans KR', sans-serif;
+    }
+</style>
 
-
-<div class="container">
-  <div class="row pt-4 my-3">
-      <div class="col-md-12">
-          <h3>회원가입</h3>
-      </div>
-  </div>
-  <div class="row my-3">
-      <form action="" method="post" enctype="multipart/form-data">
-          {% csrf_token %}
-          {{ form.as_p }}
-          <div>
-              <input class="btn btn-primary" type="submit" value="회원가입">
-          </div>
-      </form>
-  </div>
+<div class="container my-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-4">
+            <div class="text-center mb-4">
+                <h3 class="d-inline-block align-middle">회원가입</h3>
+            </div>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group mb-3">
+                    <label for="email">이메일</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="example@email.com">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="nickname">닉네임</label>
+                    <input type="nickname" class="form-control" id="nickname" name="nickname" placeholder="nickname">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="password">비밀번호</label>
+                    <input type="password" class="form-control" id="password1" name="password1">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="password2">비밀번호 확인</label>
+                    <input type="password" class="form-control" id="password2" name="password2">
+                </div>
+                <div class="text-center">
+                    <input class="btn btn-primary" type="submit" value="회원가입">
+                </div>
+            </form>
+            {% if error_message %}
+                <div class="alert alert-danger my-3" role="alert">
+                    {{ error_message }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
 </div>
-
 {% endblock %}

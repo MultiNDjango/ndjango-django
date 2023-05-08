@@ -20,7 +20,7 @@ from refrigerators.views.base_to_icon import remove_grocery_location
 '''
 
 # index 페이지 view
-@login_required
+@login_required(login_url='users:login')
 def index(request):
     page = request.GET.get('page', '1')
     grocery_list = Grocery.objects.filter(userid_id=request.user).order_by('exp_date')

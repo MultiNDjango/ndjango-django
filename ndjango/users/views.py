@@ -57,7 +57,6 @@ def update_view(request):
             return redirect('/users/login')
     else:
         user = request.user
-        # print(user.allergy['allergy'])
         if not user.allergy:
             user.allergy = []
         else:

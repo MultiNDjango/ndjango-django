@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<div class="container my-4">
+    <h2 class="text-center text-secondary">회원 전용 페이지</h2>
+    <img src="{% static 'recsys/recsys_2/img/go_back_404.jpg' %}" class="img-fluid mx-auto d-block"/>
+    <p class="text-center my-2">냉장부의 회원이 되어주세요🎃 뿌잉뿌잉</p>
+    <div class="mt-4 d-grid gap-2 col-4 mx-auto">
+        <a class="btn btn-primary" href="/users/login/" role="button">로그인</a>
+        <a class="btn btn-warning" href="/users/signup/" role="button">회원가입</a>
+    </div>
+
+
+</div>
+{% endblock %}

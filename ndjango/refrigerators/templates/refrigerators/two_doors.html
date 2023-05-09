@@ -1,6 +1,3 @@
-{% extends 'base.html' %}
-{% block content %}
-
 {% load static %}
 <script type="text/javascript">var redipsURL = '/javascript/drag-and-drop-table-row/';</script>
 <link rel="stylesheet" href="{% static 'refrigerators/icon_display/two_doors.css' %}" type="text/css" media="screen" />
@@ -34,7 +31,7 @@
 				<th colspan="6" class="redips-mark">냉동</th>
 			</tr>
 			{% for ctx in ice %}
-			<tr class="rs">
+			<tr class="rf">
 				<td class="redips-rowhandler"><div class="redips-drag redips-row"></div></td>
 				{% for k, v in ctx.items %}
 				<td>
@@ -117,5 +114,3 @@
 	</div>
 
 </article>
-
-{% endblock %}

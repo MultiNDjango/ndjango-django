@@ -2,6 +2,18 @@
 
 {% load static %}
 {% block content %}
+<link rel="stylesheet" href="{% static 'homepage/css/main-header.css' %}" type="text/css" media="screen" />
+<!-- MAIN BANNER -->
+<div class="four mt-5 mb-3">
+    <h1>
+        <span>
+            "소비기한 알림과 레시피 추천으로 나의 냉장고 식재료를 똑똑하게 관리해주는 냉장고 관리 서비스"
+        </span>
+        <em>냉장고</em>를 부탁해
+    </h1>
+</div>
+
+<img src="{% static 'homepage/images/banner.jpg' %}" alt="main-banner" class="main-banner">
 
 <style>
     body {
@@ -9,14 +21,10 @@
     }
 </style>
 
-<!-- VIDEO BANNER -->
-<figure>
-    <video src="{% static 'homepage/images/preview.mp4' %}" autoplay muted loop></video>
-</figure>
 
 <!-- BUTTON -->
 <div class="service_button">
-    <a class="button" href="#">냉장부 서비스 이용하기</a>
+    <a class="button" href="{% url 'users:login' %}">냉장부 서비스 이용하기</a>
 </div>
 
 <!-- GRID -->
@@ -126,3 +134,7 @@
         </div>
     </div>
 </footer>
+
+<figure>
+        <video src="{% static 'homepage/images/preview.mp4' %}" autoplay muted loop></video>
+</figure>

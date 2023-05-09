@@ -1,11 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-
-<style>
-    body {
-        font-family: 'Noto Sans KR', sans-serif;
-    }
-</style>
+{% load static %}
 
 {% if user.is_authenticated %}
 <div class="container my-5">
@@ -30,95 +25,104 @@
                 {% endfor %}
             {% endif %}
 
-            {% if expiring_groceries %}
-            <div class="alert alert-warning">
-                <p>One or more groceries are going to expire in three days or less:</p>
-                <ul>
-                {% for grocery in expiring_groceries %}
-                    <li>{{ grocery.name }}</li>
-                {% endfor %}
-                </ul>
-                <p>Do you want to order these groceries on Amazon?</p>
-                <button onclick="if(!confirm('{{ grocery.name }} 추가 구매를 원하십니까? \n구매 페이지로 이동합니다.')){return false;}">Yes</button>
-            </div>
-            {% endif %}
-    
-            <div class="text-center mb-5">
-                <h3 class="d-inline-block align-middle">냉장고</h3>
-            </div>
-            <div class="row justify-content-between my-3">
-                <div class="d-flex justify-content-end">
-                    <a href="{% url 'refrigerators:insertion_method' %}" class="btn btn-primary">식재료 등록</a>
-                </div>                  
-            </div>
-            <div class="row my-3">
-                <table class="table table-hover table-bordered">
-                    <thead>
-                        <th>No</th>
-                        <th>제품명</th>
-                        <th>카테고리</th>
-                        <th>수량</th>
-                        <th>입고일</th>
-                        <th>소비기한</th>
-                        <th>사진</th>
-                        <th>비고</th>
-                        <th>구매</th>
-                    </thead>
-                    <tbody>
-                        {% for grocery in grocery_list %}
-                        <tr>
-                            <td>{{ forloop.revcounter }}</td>
-                            <td><a href="{% url 'refrigerators:view' grocery.id %}">{{ grocery.name }}</a></td>
-                            <td>{{ grocery.get_category_display_name }}</td>
-                            <td>
-                                {{ grocery.qty }}
-                                {% if grocery.qty == 0 %}
-                                    <span class="badge badge-danger" style="background-color: red; color: white;">Out</span>
-                                {% endif %}
-                            </td>
-                            <td>{{ grocery.in_date|date:"Y-m-d" }}</td>
-                            <td>{{ grocery.exp_date|date:"Y-m-d" }}</td>
-                            {% if grocery.image %}
-                                <td>
-                                    <a href="{% url 'refrigerators:image' grocery.id %}" target="_blank">확인</a>
-                                </td>
-                                {% else %}
-                                <td>
-                                    <a href="{% url 'refrigerators:edit' grocery.id %}">등록</a>
-                                </td>
-                            {% endif %}
-                            <td>
-                                <a href="{% url 'refrigerators:edit' grocery.id %}" class="btn btn-outline-info btn-sm">수정</a>
-                                <a href="{% url 'refrigerators:delete' grocery.id %}" onclick="if(!confirm('정말 삭제하시겠습니까?')){return false;}" class="btn btn-outline-danger btn-sm">삭제</a>
-                            </td>
-                            <td>
-                                <a href="https://www.coupang.com/np/search?component=&q={{ grocery.name }}" onclick="if(!confirm('{{ grocery.name }} 추가 구매를 원하십니까? \n구매 페이지로 이동합니다.')){return false;}" class="btn btn-outline-primary btn-sm" target="_blank">구매</a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <!-- 페이징 처리 --->
-            <div class="row my-3">
-                <div class="col-md-12 text-center">
-                    {% if grocery_list.has_previous %}
-                        <a href="?page=1">처음</a>
-                        <a href="?page={{ grocery_list.previous_page_number }}">이전</a>
-                    {% endif %}
-                        <!-- 페이지리스트 -->
-                        <span style="color:red;font-weight:bold;">{{ grocery_list.number }}</span>
-                        <span> / </span>
-                        <span style="font-weight:bold;">{{ grocery_list.paginator.num_pages }}</span>
-                    {% if grocery_list.has_next %}
-                        <a href="?page={{ grocery_list.next_page_number }}">다음</a>
-                        <a href="?page={{ grocery_list.paginator.num_pages }}">끝</a>
-                    {% endif %}
-                </div>
+<div class="container-fluid" style="height: 1000px">
+    {% if expiring_groceries %}
+    <div class="alert alert-warning">
+        <p>One or more groceries are going to expire in three days or less:</p>
+        <ul>
+        {% for grocery in expiring_groceries %}
+            <li>{{ grocery.name }}</li>
+        {% endfor %}
+        </ul>
+        <p>Do you want to order these groceries on Amazon?</p>
+        <button onclick="if(!confirm('{{ grocery.name }} 추가 구매를 원하십니까? \n구매 페이지로 이동합니다.')){return false;}">Yes</button>
+    </div>
+    {% endif %}
+    <div class="row pt-4 my-3">
+        <div class="col-md-12" style="float: left;">
+            <h3 style="float: left;">MY 냉장고</h3>
+            <div style="padding: 2px 20px; float: right;">
+                <a href="{% url 'refrigerators:insertion_method' %}" class="btn btn-primary">식재료 등록</a>
+
             </div>
         </div>
     </div>
+
+    <!--  icon fridge with two doors  -->
+    <div>
+        {% include 'refrigerators/two_doors.html'%}
+    </div>
+
+    <!--  fridge grocery list table  -->
+    <div class="row my-3 ps-3">
+        <table class="table table-hover table-bordered">
+            <thead>
+                <th>No</th>
+                <th>제품명</th>
+                <th>카테고리</th>
+                <th>수량</th>
+                <th>입고일</th>
+                <th>소비기한</th>
+                <th>사진</th>
+                <th>비고</th>
+                <th>구매</th>
+            </thead>
+            <tbody>
+                {% for grocery in grocery_list %}
+                <tr>
+                    <td>{{ forloop.revcounter }}</td>
+                    <td><a href="{% url 'refrigerators:view' grocery.id %}">{{ grocery.name }}</a></td>
+                    <td>{{ grocery.get_category_display_name }}</td>
+                    <td>
+                        {{ grocery.qty }}
+                        {% if grocery.qty == 0 %}
+                            <span class="badge badge-danger" style="background-color: red; color: white;">Out</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ grocery.in_date|date:"Y-m-d" }}</td>
+                    <td>{{ grocery.exp_date|date:"Y-m-d" }}</td>
+                    {% if grocery.image %}
+                        <td>
+                            <a href="{% url 'refrigerators:image' grocery.id %}" target="_blank">확인</a>
+                        </td>
+                        {% else %}
+                        <td>
+                            <a href="{% url 'refrigerators:edit' grocery.id %}">등록</a>
+                        </td>
+                    {% endif %}
+                    <td>
+                        <a href="{% url 'refrigerators:edit' grocery.id %}" class="btn btn-outline-info btn-sm">수정</a>
+                        <a href="{% url 'refrigerators:delete' grocery.id %}" onclick="if(!confirm('정말 삭제하시겠습니까?')){return false;}" class="btn btn-outline-danger btn-sm">삭제</a>
+                    </td>
+                    <td>
+                        <a href="https://www.coupang.com/np/search?component=&q={{ grocery.name }}" onclick="if(!confirm('{{ grocery.name }} 추가 구매를 원하십니까? \n구매 페이지로 이동합니다.')){return false;}" class="btn btn-outline-primary btn-sm" target="_blank">구매</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- 페이징 처리 --->
+    <div class="row my-3">
+        <div class="col-md-12 text-center">
+            {% if grocery_list.has_previous %}
+                <a href="?page=1">처음</a>
+                <a href="?page={{ grocery_list.previous_page_number }}">이전</a>
+            {% endif %}
+                <!-- 페이지리스트 -->
+                <span style="color:red;font-weight:bold;">{{ grocery_list.number }}</span>
+                <span> / </span>
+                <span style="font-weight:bold;">{{ grocery_list.paginator.num_pages }}</span>
+            {% if grocery_list.has_next %}
+                <a href="?page={{ grocery_list.next_page_number }}">다음</a>
+                <a href="?page={{ grocery_list.paginator.num_pages }}">끝</a>
+            {% endif %}
+
+        </div>
+    </div>
+
 </div>
+
 
     {% else %}
     <div class="container my-5">

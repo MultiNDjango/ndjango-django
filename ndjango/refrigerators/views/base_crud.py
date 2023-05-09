@@ -12,7 +12,8 @@ from django.contrib import messages
 from django.utils import timezone
 import os
 
-from refrigerators.views.base_to_icon import set_grocery_location
+
+from refrigerators.views.base_to_icon import set_grocery_location, get_fridge_location_info
 from refrigerators.views.base_to_icon import remove_grocery_location
 
 '''
@@ -41,7 +42,16 @@ def index(request):
         messages.error(request, f"소비기한이 만료된 식재료가 {len(expired_groceries)}개 있어요!", extra_tags='alert-dismissible expired')
     if expiring_groceries:
         messages.warning(request, f"소비기한이 3일 내에 만료되는 식재료가 {len(expiring_groceries)}개 있어요!", extra_tags='alert-dismissible expiring')
+
+
     context = {'grocery_list': page_obj}
+
+    # 냉장고 위치 정보
+    ice, fresh = get_fridge_location_info(request.user)
+
+    context['ice'] = ice
+    context['fresh'] = fresh
+
     return render(request, 'refrigerators/crud_index.html', context)
 
 def insertion_method(request):

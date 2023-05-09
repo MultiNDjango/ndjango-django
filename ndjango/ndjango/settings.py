@@ -119,8 +119,8 @@ DATABASES = {
      }
 }
 
-TEST_DB = 'contents'
-# TEST_DB = None
+# TEST_DB = 'contents6'
+TEST_DB = None
 
 if TEST_DB:
     DATABASES['default']['NAME'] = TEST_DB

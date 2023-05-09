@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<div class="container my-4">
+    <img src="{% static 'recsys/recsys_2/img/empty.jpg' %}" class="img-fluid mx-auto d-block" style="max-width: 350px;"/>
+    <p class="text-center my-2 text-secondary">냉장고가 비었어요.</p>
+    <a class="btn btn-primary mt-4 d-grid gap-2 col-4 mx-auto" href="{% url 'refrigerators:index' %}" role="button">냉장고에 재료 채우러 가기</a>
+</div>
+{% endblock %}

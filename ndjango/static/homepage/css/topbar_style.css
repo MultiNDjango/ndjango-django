@@ -10,6 +10,7 @@ body {
     margin: 0;
     padding: 0;
     background: #f2f2f2;
+    font-family: 'Noto Sans KR', sans-serif;
 }
 
 a {
@@ -428,25 +429,6 @@ legend {
     /*font-size: 16px;*/
     border: none;
     cursor: pointer;
-}
-
-.dropbtn:hover, .dropbtn:focus {
-    /*background-color: #3e8e41;*/
-}
-
-.dropdown {
-    float: right;
-    position: relative;
-    display: inline-block;
-}
-/* dropdown */
-.dropbtn {
-    /*background-color: #04AA6D;*/
-    /*color: white;*/
-    /*padding: 16px;*/
-    /*font-size: 16px;*/
-    border: none;
-    cursor: pointer;
 
 }
 
@@ -483,17 +465,6 @@ legend {
 
 .show {display: block;}
 
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #FFFFFF;
-    /*background-color: #f1f1f1;*/
-    min-width: 160px;
-    overflow: auto;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    right: 0;
-    z-index: 1;
-}
 
 
 .menu-name {
@@ -510,7 +481,3 @@ legend {
     display: block;
 
 }
-
-/*.dropdown a:hover {background-color: #ddd;}*/
-
-.show {display: block;}

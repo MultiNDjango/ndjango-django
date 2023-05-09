@@ -103,4 +103,3 @@ if __name__ == '__main__':
         # insertBLOB(idx+1, category_dict[record], record, item, db='contents6')
 
 
-
